@@ -1,0 +1,280 @@
+## CONTENTS | 目录
+1. 概述
+	1. 兼容html
+2. 区块元素	
+  	1. 段落和换行
+  	2. 标题
+  	3. 区块引用
+  	4. 列表
+  	5. 代码区块
+  	6. 分割线 
+3. 区段元素
+	1. 链接
+	2. 强调
+	3. 代码
+	4. 图片
+4. 其他
+	1. 反斜杠
+	2. 自动连接
+
+markdown 语法标记加一个空格
+
+## 区块元素
+
+### 段落和换行
+
+一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。
+
+「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 \<br /> 标签。
+
+如果你确实想要依赖 Markdown 来插入 \<br /> 标签的话，在插入处先按入两个以上的空格然后回车。
+
+的确，需要多费点事（多加空格）来产生 \<br /> ，但是简单地「每个换行都转换为 <br />」的方法在 Markdown 中并不适合， Markdown 中 email 式的 区块引用 和多段落的 列表 在使用换行来排版的时候，不但更好用，还更方便阅读。
+
+### 标题
+
+<span>Atx</span>形式，用1-6个<span>#</span>分别表示H1-H6标题
+
+	＃ This is H1
+	## This is H2
+	### This is H3
+	#### This is H4
+	##### This is H5
+	###### This is H6
+
+输出形式：
+
+# This is H1
+## This is H2
+### This is H3
+#### This is H4
+##### This is H5
+###### This is H6
+
+### 区块引用 Blockquotes
+
+<span> > </span> 标记来表示区块引用。
+
+引用可以嵌套（引用内的引用），递增一个或者多个<span> > </span>
+
+	> Outside Blockquotes
+	>> Inner Blockquotes
+	>>>>> Inner
+
+输出形式：
+
+> Outside Blockquotes
+> > Inner Blockquotes
+> >>>>> Inner
+
+### 列表
+
+有序列表则使用数字接着一个英文句点：
+
+	1. One
+	2. Two
+	3. Three
+	
+	生成HTML文档:
+	<ol>
+		<li>One</li>
+		<li>Two</li>
+		<li>Three</li>
+	</ol>
+
+输出形式：
+
+1. One
+2. Two
+3. Three
+
+无序列表用 星号、加好、减号作为标记
+
+	* Red
+	* Green
+	* Blue
+
+	+ Red
+	+ Green
+	+ Blue
+
+	- Red
+	- Green
+	- Blue
+	
+	生成HTML文档:
+	<ul>
+		<li>Red</li>
+		<li>Green</li>
+		<li>Blue</li>
+	</ul>
+
+输出形式:
+
+* Red
+* Green
+* Blue
+
++ Red
++ Green
++ Blue
+
+- Red
+- Green
+- Blue
+
+如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 \<p> 标签包起来，举例来说
+
+	* Red
+	
+	* Green
+	
+	生成HTML文档:
+	<ul>
+		<li>
+			<p>Red</p>
+		</li>
+		<li>
+			<p>Green<p>
+		</li>
+	</ul>
+	
+
+### 代码区块
+
+缩进 4 个空格或是 1 个制表符
+
+\<pre> 和 \<code> 标签来把代码区块包起来
+
+	这是一个普通文本
+		
+		代码块需要 4 个空格或者 1 个制表符［tab］
+	
+	生成HTML文档:
+	<p>这是一个普通文本</p>
+	<pre>
+		<code>代码块需要 4 个空格或者 1 个制表符［tab］</code>
+	</pre>
+
+输出形式：
+
+这是一个普通文本
+
+	代码块需要 4 个空格或者 1 个制表符［tab］
+
+### 分隔线
+
+用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西
+
+	***
+	---
+	___
+
+输出形式：
+
+---
+***
+___
+
+## 区段元素
+
+### 链接
+
+链接文字都是用 [方括号] 来标记
+
+要建立一个行内式的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可，例如：
+
+	[文字链接](http://www.09boy.cn "09boy'blog")
+	
+	生成HTML文档:
+	<p><a href="http://www.09boy.cn" title="09boy'blog">文字链	接</	a></p>
+
+输出形式：
+
+[文字链接](http://www.09boy.cn "09boy'blog")
+
+[an example][id]page for details
+[id]:http://www.09boy.cn
+ 
+### 强调
+
+Markdown 使用星号（*）和底线（_）作为标记强调字词的符号，被 * 或 _ 包围的字词会被转成用 \<em> 标签包围，用两个 * 或 _ 包起来的话，则会被转成 \<strong>，例如：
+
+	*tag:em single text*
+
+	**tag:strong**
+	
+	生成HTML文档:
+	<em>tag:em single text</em>
+	<strong>tag:strong</strong>
+
+*tag:em single text*
+
+**tag:strong**
+
+### 代码
+
+如果要标记一小段行内代码，你可以用反引号把它包起来（`），例如：
+
+	`print(true)`
+	
+	生成HTML文档:
+	<p>
+		<code>print(true);</code>
+	</p>
+
+输出形式：
+	
+`print(true);`
+
+### 图片
+
+详细叙述如下：
+
+- 一个惊叹号 !
+- 接着一个方括号，里面放上图片的替代文字
+- 接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上 选择性     	的 'title' 文字。
+
+\!\[Alt text]\[id]
+
+![img](http://25.io/mou/Mou_128.png)
+
+
+## 其他
+
+### 反斜杠
+
+Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：
+
+	\   反斜线
+	`   反引号
+	*   星号
+	_   底线
+	{}  花括号
+	[]  方括号
+	()  括弧
+	#   井字号
+	+   加号
+	-   减号
+	.   英文句点
+	!   惊叹号
+	
+### 自动链接
+
+Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用方括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：
+
+	<http://www.09boy.cn>
+	<490163309@qq.com>
+	
+	生成HTML文档:
+	<a href="http://www.09boy.cn">http://www.09boy.cn</a>
+	邮箱地址并不是下面这样	
+	<a href="mailto:490163309@qq.com">490163309@qq.com</  	a>
+	而是一大堆编码，类似于这样：
+	<a href="&#x6D;&#x6D;&#x6D;&#x6D;">&#x6D;&#x6D;</a>
+
+输出形式：
+
+<http://www.09boy.cn>
+
+<490163309@qq.com>
