@@ -1,8 +1,32 @@
 #Header
 menu:
   HOME: /
-  FRONT-END: /front-end
+  FRONT-ENDL: /front-end
   BACK-END: /back-end
-  CODE: /code
   ENGLISH: /english
+  CODES: /codes
   LIFE-STYLE: /life-style
+
+# Content
+excerpt_link: Read More
+fancybox: true
+
+favicon: /favicon.ico
+
+# Sidebar
+# sidebar: right
+# widgets:
+# - category
+# - tag
+# - tagcloud
+# - archive
+# - recent_posts
+
+#Page Categories
+
+
+# js html css sass svg canvas 
+# nodejs
+# biji
+# hexo markdown grunt 
+# note life

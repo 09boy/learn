@@ -6,6 +6,10 @@ node_modules/
 public/
 .deploy*/
 
+# CSS
 .css.map
 .map
 .sass-cache/
+
+# Grunt
+grunt/node_modules
