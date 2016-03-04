@@ -1,0 +1,49 @@
+<header id="header">
+	<div class="left"><%- image_tag('images/logo_w.png',{alt:"logo"})%></div>
+	<% 
+		var option = {},
+			isPage = is_page(),
+			isCategory = is_category(),
+			checkPost = function (title){
+				var value = false;
+				if(is_post()){
+					page.categories.each(function(category){
+						if(title == category.name.toLowerCase()){
+							value = true;
+						}
+					})
+				}
+				return value;
+			},
+			isHome = !isPage && !isCategory && !is_post(),
+			pageTitle = page.title,
+			checkThis = function(title){
+
+				if ( isPage && pageTitle.toLowerCase() == title || isCategory && page.path.indexOf(title) != -1 || checkPost(title) || isHome && title == 'home' ){
+					return true
+				}
+				return false;
+			};
+	%>
+	<nav>
+		<% for(var i in theme.menu){ %>
+			<% option.class = ''; %>
+			<% if( checkThis(i.toLowerCase()) ){ %>
+				<% option.class = 'current-nav' %>
+			<% } %>
+			<%- link_to(url_for(theme.menu[i]),i,option) %>
+		<% } %>
+	</nav>
+	<div class="right">
+		<form method="get" id="searchform" action="">
+			<input type="text" name="search" placeholder="SEARCH">
+			<button type="submit" value="">
+				<span class="icon-search"></span>
+			</button>
+		</form>
+		<span class="menu icon-list2"></span>
+	</div>
+</header>
+<% if(is_category()){ %>
+	<%- partial('_partial/get_page_categories',{referenceName: page.category}) %>
+<% } %>

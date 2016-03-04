@@ -1,0 +1,25 @@
+<article id="article-detail">
+	<header>
+		<h1><%- page.title %></h1>
+		
+		<div class="fs-12">
+			<p class="meta">
+				<span class="icon-calendar"></span>
+				<span><%= date(page.date) %></span>
+			</p>
+			<p>
+				<span>tags:</span>
+				<span>Markdown</span>
+				<span>css</span>
+			</p>
+		</div>
+	</header>
+	<div id="contents-wraper">
+		<div id="contents">
+			
+		</div>
+		<%- page.content %>
+	</div>
+	
+	
+</article>

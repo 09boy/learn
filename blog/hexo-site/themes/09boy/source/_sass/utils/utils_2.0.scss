@@ -1,0 +1,257 @@
+@charset "UTF-8";
+/**
+ * Utils: base style;
+ * @authors 09boy
+ * @date    2015-05-20 15:06:51
+ * @version 1.0
+ */
+
+/* public method */
+
+/* static Key */
+$W:  	width;
+$H: 	height;
+$BDR: 	border;
+$LEFT:   	left;
+$RIGHT:  	right;
+$TOP:    	top;
+$BOTTOM: 	bottom;
+$MARGIN: 	margin;
+$PADDING: 	padding;
+
+$BACKGROUND: background;
+$COLOR:  color;
+$FONT:   font;
+
+$AUTO: 	auto;
+$NONE:  none;
+$SIZE:  size;
+$PER-100:   100%;
+$INHERT:    inhert; 
+$TRANSITION: transition;
+$WEBKIT: -webkit-;
+
+
+$BROWSER: (
+
+	-webkit-: -webkit-,
+	-moz-: -moz-,
+	-ms-: -ms-,
+	-o-: -o-
+);
+
+@mixin setBrowserDiffHeadProperty ( $defaultProperty, $value... ) {
+
+	@each $property, $key in $BROWSER {
+		#{$property}#{$defaultProperty} : $value;
+	}
+	#{$defaultProperty} : $value;
+
+}
+
+@mixin setBrowserDiffHeadValue ( $property, $value ){
+
+	@each $bvalue, $key in $BROWSER {
+		// #{$property}#{$defaultProperty} : $value;
+		#{$property} : #{$bvalue}#{$value}
+	}
+	// #{$defaultProperty} : $value;
+	#{$property} :$value;
+}
+
+/* 伪类 Pseudo-Classes ： border line */
+@mixin pseudoBorder($scale){
+
+	content: '';
+  	left: 0;
+  	right: 0;
+  	height: 1px;
+  	position: absolute;
+  	@include translate(scaleY($scale));
+}
+@mixin borderScaleLine( $direction, $color, $scale){
+
+	border-#{$direction}: 1px $color solid;
+	@include pseudoBorder($scale);
+}
+
+@mixin borderScaleLineFull( $color, $scale){
+
+	border: 1px $color solid;
+	@include pseudoBorder($scale);
+}
+
+/*  set  box-flex */
+@mixin box-flex( $value ){
+	@include setBrowserDiffHeadProperty(box-flex,$value);
+}
+
+@mixin box-sizing( $value ){
+
+	@include setBrowserDiffHeadProperty(box-sizing,$value);
+}
+
+/*  set margin  */
+@mixin margin( $value... ){
+
+	#{$MARGIN}: $value;
+}
+
+/*  set padding  */
+@mixin padding( $value... ){
+
+	#{$PADDING}: $value;
+}
+
+/*  set shadow  */
+@mixin shadow( $value... ){
+
+	@include setBrowserDiffHeadProperty(box-shadow,$value);
+}
+
+/*  set radius  */
+@mixin radius( $value... ){
+
+	@include setBrowserDiffHeadProperty(border-radius,$value);
+}
+
+/*  set transform  */
+@mixin translate( $value... ){
+
+	@include setBrowserDiffHeadProperty(transform,$value);
+}
+
+/*  set transform timing  */
+@mixin trans-timing( $value ){
+
+	@include setBrowserDiffHeadProperty(transition-timing-function,$value);
+}
+
+/*  set transform duration  */
+@mixin trans-duration( $value ){
+
+ 	@include setBrowserDiffHeadProperty(transition-duration,$value);
+}
+
+/* set animation duration  */
+@mixin animation-duration ( $value ){
+
+	@include setBrowserDiffHeadProperty(animation-duration,$value);
+}
+
+/**
+* $value ::  none | forwards | backwards | both
+*/
+@mixin animation-fill-mode( $value ){
+
+ 	@include setBrowserDiffHeadProperty(animation-fill-mode,$value);
+}
+/**
+* $value ::  normal | alternate
+*/
+@mixin animation-direction( $value ){
+
+ 	@include setBrowserDiffHeadProperty(animation-direction,$value);
+}
+
+/**
+* keyframes
+* $name 
+* $start
+* $end
+*/
+
+@mixin keyframes( $name ){
+
+	$tempAniTypeMap: map-get($ANIMATION_CONFIG, $name);
+	$tempStartMap: map-get($tempAniTypeMap,start);
+	$tempEndMap: map-get($tempAniTypeMap,end);
+
+	@-webkit-keyframes #{$name} {
+		0% {
+	    	@each $property, $value in $tempStartMap {
+
+	  			@if $property != transform {
+
+	  				#{$property}: $value;
+	  				
+	  			}@else{
+
+	  				@include translate($value);
+	  			}
+	  		}
+	  	}
+
+	  	100% {
+	    	@each $property, $value in $tempEndMap {
+
+	  			@if $property != transform {
+
+	  				#{$property}: $value;
+
+	  			}@else{
+
+	  				@include translate($value);
+	  			}
+	  		}
+	  	}
+	}
+ 	
+
+	@keyframes #{$name} {
+		0% {
+	    	@each $property, $value in $tempStartMap {
+
+	  			@if $property != transform {
+
+	  				#{$property}: $value;
+
+	  			}@else{
+
+	  				@include translate($value);
+	  			}
+	  		}
+	  	}
+
+	  	100% {
+	    	@each $property, $value in $tempEndMap {
+
+	  			@if $property != transform {
+
+	  				#{$property}: $value;
+
+	  			}@else{
+
+	  				@include translate($value);
+	  			}
+	  		}
+	  	}
+	}
+	
+	.#{$name} {
+  		@include setBrowserDiffHeadProperty(animation-name,$name);
+	}
+}
+
+/*  Static Position  */
+
+%POSITION_T {
+	@include translate(translate3d(0,-100%,0) translateZ(0px));
+}
+
+%POSITION_R {
+	@include translate(translate3d(100%,0,0) translateZ(0px));
+}
+
+%POSITION_B {
+	@include translate(translate3d(0,100%,0) translateZ(0px));
+}
+
+%POSITION_L {
+	@include translate(translate3d(-100%,0,0) translateZ(0px));
+}
+
+%POSITION_DF {
+	@include translate(translate3d(0,0,0) translateZ(0px));
+}
+

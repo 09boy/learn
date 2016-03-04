@@ -1,0 +1,150 @@
+@charset "UTF-8";
+/**
+ * reset style;
+ * @authors 09boy
+ * @date    2015-05-20 14:51:48
+ * @version 1,0
+ */
+
+/* reset */
+
+body,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+	@extend .m-0;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+
+	font-size: inherit;
+	line-height: 1.4;
+	font-weight: lighter;
+}
+
+
+ul, ol {
+
+	@extend .p-0;
+}
+
+li {
+
+	list-style: none;
+	vertical-align: top;
+}
+
+img {
+
+	vertical-align: middle;
+	border: 0;
+}
+
+a {
+
+	color: inherit;
+	text-decoration: none;
+	display: block;
+}
+
+a:focus {
+
+	outline: thin dotted;
+	outline:none;
+	-moz-outline:none;
+}
+
+a:hover,
+a:active {
+
+	outline: 0;
+	color: inherit;
+}
+
+a,
+img {
+
+	-webkit-touch-callout: none;
+}
+
+body {
+
+	@extend .l-16;
+	@extend .fs-14;
+	// 禁止选中
+	// -webkit-user-select: none;
+	// user-select: none;
+
+	/* webkit, opera, IE9 */
+	::selection { background:lightblue;}
+	/* mozilla firefox */
+	::-moz-selection { background:lightblue;}
+
+	// /* webkit, opera, IE9 */
+	// div.highlightBlue::selection { background:lightblue; }
+	// /* mozilla firefox */
+	// div.highlightBlue::-moz-selection { background:lightblue; }/* webkit, opera, IE9 */
+	// div.highlightPink::selection { background:pink; }
+	// /* mozilla firefox */
+	// div.highlightPink::-moz-selection { background:pink; }
+
+
+	-ms-touch-action: none;
+	-webkit-box-sizing: border-box;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	/* Prevent the callout on tap-hold and text selection */
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+
+	//font-family: 'Helvetica', 'STHeiTi', 'sans-serif';
+	// font-family: Georgia, "Times New Roman", 
+ //             "Microsoft YaHei", "微软雅黑", 
+ //             STXihei, "华文细黑", 
+ //             serif;
+ 	font-family: 'melbourneregular', Georgia, "Times New Roman";
+}
+
+input {
+
+	border: none;
+	font-size: inherit;
+	outline: none;
+	-webkit-appearance: none;
+	background-color: transparent;
+	font-family: inherit;
+}
+
+select {
+
+	border: none;
+	background-color: transparent;
+}
+
+html,
+body,
+.wraper,
+.sub-wraper,
+.seat-wraper {
+
+	@extend .p-re;
+	@extend .w-fl;
+	@extend .wh-fl;
+	// @extend .ov-fl-h;
+}
+
+header {
+
+	@extend .p-re;
+}
+

@@ -1,0 +1,82 @@
+<section>
+	<header>
+
+		<% site.pages.each(function(page){ %>
+			<%= page.categories %>
+		<% }) %>
+
+		<br>
+
+		<%= page %>
+		<% var categories = site.categories; len = categories.length; %>
+		<br>
+		<% if(len){ %>
+			<% categories.each(function(category){ %>
+				<br>
+				<%= category.categories %>
+				":"
+				<%= category.name %>
+				// <% if(category.name.toLowerCase() == page.title.toLowerCase()){ %>
+				// 	<%= category.name %>
+				// <% } %>
+			<% }) %>
+		<% } %>
+		<nav>
+			
+		</nav>
+	</header>
+
+
+</section>
+<h1><%- page.title %></h1>
+
+<%- list_categories()%>
+page.ejs
+<br>
+
+
+<br>
+	IsCategory: <%= is_category() %>
+	
+	<br>
+	IsPage: <%= is_page() %>
+	<br>
+	
+	IsPost: <%= is_post() %>
+	<br>
+	
+	IsTag: <%= is_tag() %>
+	<br>
+	
+	IsArchive: <%= is_archive() %>
+	<br>
+	Category: <%= page.category %>
+	<br>
+	pageTag: <%= page.tag %>
+	<br>
+	pagePath: <%= page.path %>
+	<br>
+
+	siteTags: <%= site.tags %>
+	<br>
+	<% site.tags.each(function(tag){ %>
+		<br>
+		<%= tag.name %>
+		<br>
+		<%= tag.path %>
+		<br>
+	<%}) %>
+	<br>
+
+	<h2> Categories </h2>
+	siteCategories: <%= site.categories %>
+	<br>
+	<% site.categories.each(function(cate){ %>
+		<br>
+		<%= cate.name %>
+		<br>
+		<%= cate.path %>
+		<br>
+	<%}) %>
+
+	

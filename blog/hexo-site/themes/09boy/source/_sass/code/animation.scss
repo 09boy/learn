@@ -1,0 +1,113 @@
+@charset "UTF-8";
+/**
+ * Animation
+ * @authors 09boy
+ * @date    2015-05-20 15:04:23
+ * @version 1.0
+ */
+
+
+/* mask out */
+.mask-layer.out,
+.ani-show { @include trans-timing(cubic-bezier(0.645, 0.045, 0.455, 1));}
+
+.slider,
+.ani-trans
+{
+	@include trans-timing(cubic-bezier(0.1, 0.57, 0.1, 1));
+}
+
+.ani-trans{
+
+	@include trans-duration(350ms);
+}
+
+.wrap-ts-out{
+
+  	@include translate(translate(-60%, 0px) translateZ(0px));
+  	@include trans-duration(400ms);
+}
+
+.wrap-ts-in{
+
+	@extend %POSITION_DF;
+	@include trans-duration(410ms);
+}
+
+.ani-scale,
+.trans-scale {
+
+	@include trans-timing(cubic-bezier(.43,.08,.18,1));
+	@include translate(scale3d(.95,.95,0) translateZ(0px));
+	/*z-index: -100;*/
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+.scale-in{
+	
+	@include trans-duration(400ms);
+	@include translate(scale3d(1,1,1) translateZ(0px));
+	/*z-index: 1;*/
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+.scale-out {
+	
+	@include trans-duration(300ms);
+  	/*z-index: -100;*/
+  	opacity: 0;
+  	visibility: hidden;
+  	pointer-events: none;
+}	
+
+.order_detail {
+
+	@include trans-timing(cubic-bezier(.43,.08,.18,1));
+}
+
+.ani-opc {
+
+	@include trans-timing(cubic-bezier(0,.54,.46,1));
+	@include translate(scale3d(1,1,1) translateZ(0px));
+	opacity: 1;
+}
+.opc-out {
+
+	@include translate(scale3d(.9,.9,.9) translateZ(0px));
+	opacity: 0;
+}
+
+
+
+/* transiton page */
+
+/*  loading animation  */
+.tpage-ani {
+
+	// @include trans-timing(cubic-bezier(.35,.01,.36,.99));
+	// @include trans-duration(400ms);
+}
+
+.tsort-ani {
+
+	@include trans-timing(cubic-bezier(0,.54,.46,1));
+	@include trans-duration(300ms);
+}
+
+.tout-r {
+
+	@extend %POSITION_R;
+}
+
+.tin {
+	
+	@extend %POSITION_DF;
+}
+
+
+.tobottom {
+
+	@extend %POSITION_B;
+}

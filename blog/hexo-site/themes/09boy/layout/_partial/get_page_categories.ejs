@@ -1,0 +1,14 @@
+<% if( referenceName ){ %>
+<div class="sub-nav">
+	<div class="hide" id="_category_list_">
+		<%- list_categories({show_count:false,class:'_reference_'})%>
+	</div>
+	<%
+		var html = list_categories({show_count:false,class:'_reference_'});
+	%>
+	
+	<br>
+	<%= page.category %>
+</div>
+
+<% } %>

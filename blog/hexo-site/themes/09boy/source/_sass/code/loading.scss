@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+$lod-W:     85px;
+$lod-H:     $lod-W;
+// $lod-Txt:   "无人如你\a 逗留我思潮上";
+$lod-Txt:   "请稍候";
+$lod-Txt-2:   "座位图加载中";
+$lod-Txt-3:   "锁定座位中";
+
+%log-bg{
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    -webkit-background-size: contain;
+            background-size: contain;
+}
+
+
+
+.loading{
+	
+	@extend .page;
+    z-index:  100;
+    background-color: rgba(#000,.8);
+    
+    // 白色小块
+    > div{
+    	@extend .p-ab;
+    	@extend .ov-fl-h;
+    	@extend .t-c;
+        z-index: 1;
+        left: 50%;
+        top: 40%;
+        -webkit-transform:translate(-50%,-50%);
+                transform:translate(-50%,-50%);
+        width: $lod-W;
+        min-height: $lod-H;
+
+        // 增加文字为垂直居中而...
+        -webkit-display: -webkit-box;
+        -webkit-display: -webkit-flex;
+        display: -webkit-box;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-align-content: center;
+        align-content: center;
+
+         // 下面文案
+        &:after{
+            content: $lod-Txt;
+            // top: 100%;
+            display: block;
+            margin-top: 64px;
+            padding-bottom: 8px;
+            min-width: 100%;
+            color: #eee;
+            text-align: center;
+            white-space: pre-wrap;
+            @extend .fs-10;
+            // font-size: .95rem!important;
+            line-height: 1.3;
+        }
+        &.seats-loader:after{
+            content: $lod-Txt-2;
+        }
+        &.lockSeat-loader:after{
+            content: $lod-Txt-3;
+        }
+
+    }
+
+    // 图片
+    // --------------------------
+    i{
+        // // 默认图片 小菊花
+            position: absolute;
+            top: 20px; // 50%
+            left: 50%;
+            
+            width: 30px;
+            height: 30px;
+            // margin: -10px 0 0 -10px;
+            margin-left: -15px;
+            -webkit-border-radius: 100px;
+            border-radius: 100px;
+            border: 4px solid #29cc6d;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-top-color: rgba(#333,0);
+
+            -webkit-animation: my_fhload .8s infinite linear;
+            animation: my_fhload .8s infinite linear;
+    }
+
+
+}
+
+// 默认图片 小菊花
+@-webkit-keyframes my_fhload {
+    0%{ -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}

@@ -1,0 +1,32 @@
+<%- partial('_partial/head',{cssPath:'css/style.css'}) %>
+	<div id="container">
+		<%- partial('_partial/header') %>
+		<div class="main-sidebar" id="main">
+			<!-- <aside class="sidebar">
+				<%- partial('_widget/about') %>
+				<%- partial('_widget/recent_posts') %>
+				<%- partial('_widget/category') %>
+				<%- partial('_widget/tag') %>
+			</aside> -->
+			<div class="main-content">
+				<%- body %>
+			</div>
+
+			<div id="foot">
+				<p>© 2014 09BOY | DESIGN BY 09BOY | POWERED BY <a href="https://hexo.io/" target="_blank"> HEXO.</a> | <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备14023903号</a></p>
+			</div>
+		</div>
+
+		<aside id="sidebar-wrap">
+			<h2>09BOY</h2>
+			<%- partial('_widget/about') %>
+			<%- partial('_widget/recent_posts') %>
+			<%- partial('_widget/category') %>
+			<%- partial('_widget/tag') %>
+		</aside>
+
+		<!-- <div id="foot">
+			<p>© 2014 09BOY | DESIGN BY 09BOY | POWERED BY <a href="https://hexo.io/" target="_blank"> HEXO.</a> | <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备14023903号</a></p>
+		</div> -->
+	</div>
+<%- partial('_partial/foot',{jsPath:'js/pages/min/home-min.js'}) %>

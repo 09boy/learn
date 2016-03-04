@@ -1,0 +1,15 @@
+<div class="sidebar-item" id="recent-posts">
+	<header>
+		<h3>Recent Posts</h3>
+	</header>
+	
+	<div>
+		<ul>
+        	<% site.posts.sort('date', -1).limit(5).each(function(post){ %>
+          		<li class="recent-posts-li">
+            		<a href="<%- url_for(post.path) %>"><%= post.title || '(no title)' %></a>
+         		</li>
+       	 	<% }) %>
+      </ul>
+	</div>
+</div>

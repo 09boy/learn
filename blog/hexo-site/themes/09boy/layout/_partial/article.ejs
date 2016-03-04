@@ -1,0 +1,23 @@
+<article>
+	<header>
+		<h1><%- link_to(url_for(post.path),post.title) %></h1>
+		<p class="meta">
+			<span class="icon-calendar"></span>
+			<span><%= date(post.date) %></span>
+		</p>
+	</header>
+	<div class="container">
+		<% if(post.excerpt){ %>
+			<%- post.excerpt %>
+		<% }else { %>
+			<%- post.content %>
+		<% } %>
+		<!-- <blockquote>
+			Object.keys(obj)
+		</blockquote> -->
+		
+	</div>
+	<footer>
+		<%- link_to(url_for(post.path),theme.excerpt_link) %>
+	</footer>
+</article>
