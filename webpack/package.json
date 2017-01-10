@@ -1,0 +1,44 @@
+{
+  "name": "learn-webpack",
+  "version": "1.0.0",
+  "description": "learn wbpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "webpack ./src/tutorial/get-started/app/index.js  ./src/tutorial/get-started/dist/bundle.js",
+    "test1": "webpack  --config src/tutorial/get-started/webpack.config.js",
+    "test2": "webpack src/tutorial/get-started/webpack.config.js",
+    "start": "webpack --progress --watch",
+    "dev-server": "webpack-dev-server --config src/exercise/get-started/webpack.config.js",
+    "dev": "node src/exercise/get-started/server.js",
+    "dev-test": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "css-loader": "^0.26.1",
+    "express": "^4.14.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-plugin": "^2.24.1",
+    "postcss-loader": "^1.2.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-hot-loader": "^1.3.1",
+    "redux": "^3.6.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.14.0",
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-hot-middleware": "^2.14.0"
+  },
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  }
+}
