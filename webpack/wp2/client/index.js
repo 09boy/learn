@@ -1,26 +1,24 @@
-import './utils/tool';
-console.log('It is working.');
-
-console.log('update ss');
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { AppContainer } from 'react-hot-loader';
+// import { AppContainer } from 'react-hot-loader';
 // AppContainer is a necessary wrapper component for HMR
 
-// import CountDown from './components/CountDown/index';
+import CountDown from './components/CountDown/index';
 
-// const render = Component => {
-// 	ReactDOM.render(
-// 		<AppContainer>
-// 			<Component />
-// 		</AppContainer>,
-// 		document.querySelector('#root')
-// 	);
-// };
+import './style';
 
-// render(CountDown);
+const render = Component => {
+	ReactDOM.render(
+		// <AppContainer>
+			<Component />,
+		// </AppContainer>,
+		document.querySelector('#root')
+	);
+};
+
+render(CountDown);
+// console.log('fuck you');
 
 // // Hot Module Replacement API
 // if (module.hot) {

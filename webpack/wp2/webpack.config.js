@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// import { path } from 'path';
-// import { webpack } from 'webpack';
+
 
 const resources = path.resolve(__dirname, 'client');
 const static_sources = path.resolve(__dirname, 'static');
@@ -25,11 +24,12 @@ module.exports = {
 			// only- means to only hot reload for successful updates
 
 			'./index.js'
-		]
+		],
+		vendor: ['react', 'react-dom']
 	},
 	output: {
 		path: static_sources,
-		filename: '[name].js',
+		filename: '[name].[hash].js',
 		publicPath: '/'
 		// necessary for HMR to know where to load the hot update chunks
 	},
@@ -39,7 +39,18 @@ module.exports = {
 				test: /\.js|jsx$/,
 				use: [
 					// 'react-hot-loader',
-					'babel-loader',
+					// 'babel-loader',
+					{
+						loader: 'babel-loader',
+						options: {
+							presets: [
+								'es2015',
+								// {modules: true},
+								'stage-0',
+								'react'
+							]
+						}
+					}
 				],
 				exclude: /node_modules/,
 				include: resources
@@ -50,7 +61,8 @@ module.exports = {
 				use: [
 					'style-loader',
 					'css-loader'
-				]
+				],
+				exclude: /node_modules/,
 			}
 		]
 	},
@@ -68,6 +80,11 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './index.html',
 			inject: 'body' 
+		}),
+
+		new webpack.optimize.CommonsChunkPlugin({
+			names: ['vendor', 'manifest']
+			// Specify the common bundle's name
 		}),
 
 		new webpack.HotModuleReplacementPlugin(),
