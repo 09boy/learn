@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+// import { path } from 'path';
+// import { webpack } from 'webpack';
 
 const resources = path.resolve(__dirname, 'client');
 const static_sources = path.resolve(__dirname, 'static');

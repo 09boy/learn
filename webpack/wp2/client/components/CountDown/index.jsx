@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './style';
+// import './style';
 
 class CountDown extends Component {
 	constructor(props) {

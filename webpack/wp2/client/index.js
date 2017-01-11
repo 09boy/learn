@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 
 import CountDown from './components/CountDown/index';
 
-import './style';
+// import './style';
 
 const render = Component => {
 	ReactDOM.render(
