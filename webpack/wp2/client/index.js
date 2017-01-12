@@ -4,11 +4,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { AppContainer } from 'react-hot-loader';
-// // AppContainer is a necessary wrapper component for HMR
+// AppContainer is a necessary wrapper component for HMR
 
 import CountDown from './components/CountDown/index';
 
-// // import './style.scss';
+// import './style.scss';
 
 const render = Component => {
 	ReactDOM.render(
@@ -20,6 +20,7 @@ const render = Component => {
 };
 
 render(CountDown);
+
 
 // // Hot Module Replacement API
 // if (module.hot) {
