@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // import { path } from 'path';
 // import { webpack } from 'webpack';
 
@@ -63,6 +64,15 @@ module.exports = {
 					'style-loader',
 					'css-loader'
 				],
+				// use: [
+
+				// 	'style-loader',
+				// 	{
+				// 		loader: ExtractTextPlugin.extract({
+				// 			loader: ['css-loader?sourceMap']
+				// 		})
+				// 	}
+				// ],
 				exclude: /node_modules/,
 			}
 		]
@@ -87,6 +97,12 @@ module.exports = {
 			names: ['vendor', 'manifest']
 			// Specify the common bundle's name
 		}),
+
+		// new ExtractTextPlugin({
+		// 	filename: 'bundle.css',
+		// 	disable: false,
+		// 	allChunks: true
+		// }),
 
 		new webpack.HotModuleReplacementPlugin(),
 		// enable HMR globally
