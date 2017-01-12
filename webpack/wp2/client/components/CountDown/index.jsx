@@ -12,6 +12,8 @@ class CountDown extends Component {
 		return (
 			<div>
 				CountDown Component!
+				<p>Yao xi</p>
+				waht
 			</div>
 		);
 	}

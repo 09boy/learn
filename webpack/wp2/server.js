@@ -12,8 +12,9 @@ app.use(webpackDevMiddleware(compiler, {
 	publicPath: webpackConfig.output.publicPath,
 	hot: true,
 	stats: {
-		// colors: true,
+		colors: true,
 	},
+	historyApiFallback: true,
 	contentBase: path.resolve(__dirname, 'client'),
 }));
 

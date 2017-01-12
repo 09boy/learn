@@ -1,24 +1,25 @@
-console.log('update wgy')
-// import React from 'react';
-// import ReactDOM from 'react-dom';
+import './utils/tool';
+import './utils/math';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-// import { AppContainer } from 'react-hot-loader';
-// // AppContainer is a necessary wrapper component for HMR
+import { AppContainer } from 'react-hot-loader';
+// AppContainer is a necessary wrapper component for HMR
 
-// import CountDown from './components/CountDown/index';
+import CountDown from './components/CountDown/index';
 
-// // import './style';
+// import './style.scss';
 
-// const render = Component => {
-// 	ReactDOM.render(
-// 		// <AppContainer>
-// 			<Component />,
-// 		// </AppContainer>,
-// 		document.querySelector('#root')
-// 	);
-// };
+const render = Component => {
+	ReactDOM.render(
+		<AppContainer>
+			<Component />
+		</AppContainer>,
+		document.querySelector('#root')
+	);
+};
 
-// render(CountDown);
+render(CountDown);
 
 
 // // Hot Module Replacement API
@@ -29,3 +30,7 @@ console.log('update wgy')
 // 		render(NewApp)
 // 	});
 // }
+
+if (module.hot) {
+	module.hot.accept();
+}
