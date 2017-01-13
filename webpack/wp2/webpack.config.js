@@ -28,8 +28,7 @@ module.exports = {
 			// only- means to only hot reload for successful updates
 			'./index.js'
 		],
-		vendor: ['moment', 'react', 'react-dom']
-		// react bug
+		vendor: ['react', 'react-dom']
 	},
 	output: {
 		path: static_sources,
