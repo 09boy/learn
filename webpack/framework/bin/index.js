@@ -1,13 +1,17 @@
 #! /usr/bin/env node --harmony
 
-const YAML = require('js-yaml');
-const FS = require('fs');
+import yaml from 'js-yaml';
+import fs from 'fs';
 
-console.log(__dirname)
+import { smartInteractive } from './interactive.js';
+import { smartCommander } from './commander.js';
 
 try {
-	const DOC = YAML.safeLoad(FS.readFileSync( __dirname + '/config.yml', 'utf8'));
+	const DOC = yaml.safeLoad(fs.readFileSync( __dirname + '/config/task-function-name-config.yml', 'utf8'));
 	console.log(DOC);
+	smartInteractive.start(DOC);
+	smartCommander.start(DOC);
+
 } catch (e) {
 	console.log(e);
 }

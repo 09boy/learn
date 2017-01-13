@@ -3,8 +3,13 @@
   "version": "0.0.1",
   "description": "Webpack Framework to Learn",
   "main": "index.js",
+  "bin": {
+    "smart": "_bin/index.js"
+  },
   "scripts": {
-    "smart": "node bin/index.js"
+    "dev": "nodemon --exec babel-node bin/index.js",
+    "build": "babel ./bin --out-dir _bin",
+    "start": "npm run build && node _bin/index.js"
   },
   "keywords": [
     "Webpack",
@@ -23,8 +28,10 @@
   },
   "devDependencies": {
     "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
@@ -33,11 +40,14 @@
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "html-webpack-plugin": "^2.26.0",
+    "inquirer": "^2.0.0",
     "js-yaml": "^3.7.0",
     "less-loader": "^2.2.3",
     "node-sass": "^4.2.0",
+    "nodemon": "^1.11.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "sass-loader": "^4.1.1",
+    "shelljs": "^0.7.6",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.0-rc.3",
     "webpack-dev-middleware": "^1.9.0",
