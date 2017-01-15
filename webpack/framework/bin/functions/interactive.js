@@ -1,37 +1,48 @@
 import inquirer from 'inquirer';
 
-let configObj;
+const mainQuestionHead = {
+	type: 'list',
+	name: 'Select Action:',
+	message: 'What do you want to do?',
+	choices: []
+};
 
 const getQuestions = config => {
 	console.log('initialization...');
 	const questions = {
 		type: 'list',
-		name: 'App interactive inquirer',
+		name: 'Select Action:',
 		message: 'What do you want to do?',
 		choices: []
 	};
 	for (let key in config) {
 		questions.choices.push({
-			name: key,
+			name: config[key].name,
 			value: config[key]
 		});
 	}
+	console.log(config.page['child-interactive']);
 	return questions;
 };
 
-const task = questions => {
+const getQuestions1 = config => {
+
+
+};
+
+const setQuerstions = questions => {
 	inquirer
 		.prompt(questions)
 		.then(answers => {
-			console.log('then recived value is ' , answers);
+			//console.log('then recived value is ' , {name: answers['Execute Action:'].name, task: answers['Execute Action:'].task});
+
 		});
 };
 
 const smartInteractive = {
-	start: config => {
-		// configObj = config;
-		// task(getQuestions(config));
-		getQuestions(config)
+	help: config => {
+		// console.log({header: mainQuestionHead ,config});
+		setQuerstions(getQuestions(config));
 	}
 };
 
