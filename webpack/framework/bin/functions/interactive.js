@@ -1,48 +1,51 @@
-'use strict';
+import inquirer from 'inquirer';
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.smartInteractive = undefined;
+const mainQuestionHead = {
+	type: 'list',
+	name: 'Select Action:',
+	message: 'What do you want to do?',
+	choices: []
+};
 
-var _inquirer = require('inquirer');
-
-var _inquirer2 = _interopRequireDefault(_inquirer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var configObj = void 0;
-
-var getQuestions = function getQuestions(config) {
+const getQuestions = config => {
 	console.log('initialization...');
-	var questions = {
+	const questions = {
 		type: 'list',
-		name: 'App interactive inquirer',
+		name: 'Select Action:',
 		message: 'What do you want to do?',
 		choices: []
 	};
-	for (var key in config) {
+	for (let key in config) {
 		questions.choices.push({
-			name: key,
+			name: config[key].name,
 			value: config[key]
 		});
 	}
+	console.log(config.page['child-interactive']);
 	return questions;
 };
 
-var task = function task(questions) {
-	_inquirer2.default.prompt(questions).then(function (answers) {
-		console.log('then recived value is ', answers);
-	});
+const getQuestions1 = config => {
+
+
 };
 
-var smartInteractive = {
-	start: function start(config) {
-		// configObj = config;
-		// task(getQuestions(config));
-		getQuestions(config);
+const setQuerstions = questions => {
+	inquirer
+		.prompt(questions)
+		.then(answers => {
+			//console.log('then recived value is ' , {name: answers['Execute Action:'].name, task: answers['Execute Action:'].task});
+
+		});
+};
+
+const smartInteractive = {
+	help: config => {
+		// console.log({header: mainQuestionHead ,config});
+		setQuerstions(getQuestions(config));
 	}
 };
+
 
 // const questions = [
 // 	{
@@ -102,4 +105,5 @@ var smartInteractive = {
 // 	}
 // ];
 
-exports.smartInteractive = smartInteractive;
+export { smartInteractive }
+
