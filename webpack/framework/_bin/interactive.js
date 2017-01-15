@@ -17,30 +17,28 @@ var getQuestions = function getQuestions(config) {
 	console.log('initialization...');
 	var questions = {
 		type: 'list',
-		name: 'App interactive inquirer',
+		name: 'Execute Action:',
 		message: 'What do you want to do?',
 		choices: []
 	};
 	for (var key in config) {
 		questions.choices.push({
-			name: key,
+			name: config[key].name,
 			value: config[key]
 		});
 	}
 	return questions;
 };
 
-var task = function task(questions) {
+var setQuerstions = function setQuerstions(questions) {
 	_inquirer2.default.prompt(questions).then(function (answers) {
-		console.log('then recived value is ', answers);
+		console.log('then recived value is ', { name: answers['Execute Action:'].name, task: answers['Execute Action:'].task });
 	});
 };
 
 var smartInteractive = {
-	start: function start(config) {
-		// configObj = config;
-		// task(getQuestions(config));
-		getQuestions(config);
+	help: function help(config) {
+		setQuerstions(getQuestions(config));
 	}
 };
 

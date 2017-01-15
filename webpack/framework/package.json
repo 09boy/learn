@@ -7,9 +7,12 @@
     "smart": "_bin/index.js"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node bin/index.js",
-    "build": "babel ./bin --out-dir _bin",
-    "start": "npm run build && node _bin/index.js"
+    "watch": "babel -w bin --out-dir _bin",
+    "dev": "nodemon --exec babel-node bin/index.js   babel -w bin --out-dir _bin",
+    "build": "babel bin --out-dir _bin",
+    "start": "npm run build",
+    "test": "mocha",
+    "lint": "eslint"
   },
   "keywords": [
     "Webpack",
@@ -38,11 +41,9 @@
     "commander": "^2.9.0",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
-    "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "html-webpack-plugin": "^2.26.0",
     "inquirer": "^2.0.0",
     "js-yaml": "^3.7.0",
-    "less-loader": "^2.2.3",
     "node-sass": "^4.2.0",
     "nodemon": "^1.11.0",
     "react-hot-loader": "^3.0.0-beta.6",
