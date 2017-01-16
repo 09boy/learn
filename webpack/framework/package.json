@@ -2,7 +2,6 @@
   "name": "boy-smart",
   "version": "0.0.1",
   "description": "Webpack Framework to Learn",
-  "main": "index.js",
   "bin": {
     "smart": "_bin/index.js"
   },

@@ -9,8 +9,13 @@ import { smartInteractive } from './functions/interactive.js';
 import { smartCommander } from  './functions/commander.js';
 import { smartTask } from './functions/actions.js';
 
+console.log('###########');
+
+// let b = fs.readFileSync( __dirname + '/.boy-smart', 'utf8')
+// console.log('bbbb', b);
+
 const checkDevEnv = () => {
-	if (__dirname.split('/').pop() === '_bin') {
+	if (__dirname.split('/').pop() === '_bin'/* && fs.existsSync(resolve(__dirname, '.boy-smart'))*/) {
 		cp('-R', resolve(__dirname, '..', 'bin/config'), './_bin');
 	}
 };

@@ -17,6 +17,8 @@ var _fs2 = _interopRequireDefault(_fs);
 
 require('shelljs/global');
 
+require('./smart-path.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getTaskFunctionConfig = function getTaskFunctionConfig() {
@@ -31,12 +33,15 @@ var getTaskFunctionConfig = function getTaskFunctionConfig() {
 	return applicationConfig;
 };
 
-getTaskFunctionConfig();
+// getTaskFunctionConfig()
+
+var checkWorkDirectory = function checkWorkDirectory() {};
+
 var initialization = function initialization() {};
 
 var smartTask = {
 	execute: function execute(config, info) {
-		console.log('execute task', config, info);
+		console.log('execute task', info);
 	}
 };
 
