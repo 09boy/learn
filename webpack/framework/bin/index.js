@@ -7,27 +7,44 @@ import 'shelljs/global';
 
 import { smartInteractive } from './functions/interactive.js';
 import { smartCommander } from  './functions/commander.js';
+import { smartTask } from './functions/actions.js';
 
+const checkDevEnv = () => {
+	if (__dirname.split('/').pop() === '_bin') {
+		cp('-R', resolve(__dirname, '..', 'bin/config'), './_bin');
+	}
+};
 
-if (__dirname.split('/').pop() === '_bin') {
-	cp('-R', resolve(__dirname, '..', 'bin/config'), './_bin');
-}
+const executeInteractiveAction = config => {
+	smartInteractive
+		.help(config)
+		.then(answers => {
+			console.log(answers, '//////// ');
+			smartTask.execute(config[answers.action], answers);
+		})
+		.catch(e => { console.log('error from executeInteractiveAction function: ', e);});
+};
 
-try {
-	const DOC = yaml.safeLoad(fs.readFileSync( __dirname + '/config/task-function-config.yml', 'utf8'));
-	smartCommander.start(DOC).then(commandObj => {
-		console.log('...promise value is ', commandObj);
-		if (commandObj.isUnknowCommand) {
-			smartInteractive.help(DOC);
-		} else {
+const executeCommander = config => {
+	smartCommander
+		.start(config)
+		.then(commandInfo => {
+			commandInfo.isUnknowCommand ? executeInteractiveAction(config) : smartTask.execute(config[commandInfo.action], commandInfo);
+	  })
+		.catch(e => { console.log('smartCommander promise error: ', e);});
+};
 
-		}
-	}).catch(e => {
-		console.log('smartCommander promise error: ', e);
-	});
+const getTaskFunctionConfig = () => {
+	let taskFunctionConfig;
+	try { taskFunctionConfig = yaml.safeLoad(fs.readFileSync( __dirname + '/config/task-function-config.yml', 'utf8'));}
+	catch (e) { console.log('Read task-function-config.yml file error: ', e); }
+	return taskFunctionConfig;
+};
 
-} catch (e) {
-	console.log('Read ymal file error: ', e);
-}
+const run = () => {
+	checkDevEnv();
+	executeCommander(getTaskFunctionConfig());
+};
 
+run();
 console.log('boy-smart', __dirname.split('/').pop())

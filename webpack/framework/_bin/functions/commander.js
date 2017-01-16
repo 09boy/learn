@@ -46,7 +46,9 @@ var setCommand = function setCommand(obj, key) {
 	p.action(function (arg, options) {
 		console.log('action callback....', arg, options.exec_mode, key);
 		Object.assign(resolveObj, {
-			isUnknowCommand: false
+			isUnknowCommand: false,
+			action: key,
+			argument: arg
 		});
 	});
 };
@@ -68,7 +70,6 @@ var initial = function initial(config) {
 var smartCommander = {
 	start: function start(config) {
 		initial(config);
-
 		var p = new Promise(function (resolve, reject) {
 			resolve(resolveObj);
 		});

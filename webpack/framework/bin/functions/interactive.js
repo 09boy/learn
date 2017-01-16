@@ -1,109 +1,69 @@
 import inquirer from 'inquirer';
 
-const mainQuestionHead = {
-	type: 'list',
-	name: 'Select Action:',
-	message: 'What do you want to do?',
-	choices: []
-};
+let result = {action: null, argument: null};
+let matchRootKey = {};
 
-const getQuestions = config => {
-	console.log('initialization...');
+const getRootQuestions = config => {
 	const questions = {
 		type: 'list',
 		name: 'Select Action:',
 		message: 'What do you want to do?',
 		choices: []
 	};
+	let name;
 	for (let key in config) {
+		name = config[key].name;
 		questions.choices.push({
-			name: config[key].name,
+			name,
 			value: config[key]
 		});
+		matchRootKey[name] = key;
 	}
-	console.log(config.page['child-interactive']);
-	return questions;
+	return [questions];
 };
 
-const getQuestions1 = config => {
+const getChildQuestions = config => {
+	const questions = {};
+	for (let key in config) {
+		questions[key] = config[key];
+	}
+	return setQuerstions(questions);
+};
 
+const answerCallback = answers => {
+	let isAnswerFromRootLevel = answers['Select Action:'] ? true : false;
+	if (isAnswerFromRootLevel) {
+		let rootConfig = answers['Select Action:'];
+		let childConfig = rootConfig['child-interactive'];
+		
+		result = {
+			action: matchRootKey[rootConfig.name],
+			argument: childConfig ? childConfig.name : null
+		}
 
+		if (typeof childConfig === 'object') {
+			return getChildQuestions(childConfig);
+		}
+	} else {
+		console.log('answers from children level', answers[result.argument]);
+		result.argument = answers[result.argument];
+	}
+	
+	return new Promise((resolve, reject) => {
+		resolve(result)
+	});
 };
 
 const setQuerstions = questions => {
-	inquirer
+	return inquirer
 		.prompt(questions)
-		.then(answers => {
-			//console.log('then recived value is ' , {name: answers['Execute Action:'].name, task: answers['Execute Action:'].task});
-
-		});
+		.then(answerCallback);
 };
 
 const smartInteractive = {
 	help: config => {
-		// console.log({header: mainQuestionHead ,config});
-		setQuerstions(getQuestions(config));
+		return setQuerstions(getRootQuestions(config));
 	}
 };
 
-
-// const questions = [
-// 	{
-// 		type: 'list',
-// 		name: 'App interactive inquirer',
-// 		message: 'What do you want to do?',
-// 		choices: [
-// 			{
-// 				name: 'Development',
-// 				value: 'development'
-// 			},
-// 			{
-// 				name: 'Compress',
-// 				value: 'compress'
-// 			},
-// 			{
-// 				name: 'Mocha Test',
-// 				value: 'code-test'
-// 			},
-// 			{
-// 				name: 'Clints',
-// 				value: 'code-clints'
-// 			},
-// 			{
-// 				name: 'Create Project',
-// 				value: 'new-project'
-// 			},
-// 			{
-// 				name: 'Create React & Redux Project',
-// 				value: 'new-react-redux-project'
-// 			},
-// 			{
-// 				name: 'Create React-Native & Reudx Project',
-// 				value: 'new-react-native-redux-project'
-// 			},
-// 			{
-// 				name: 'Create Page',
-// 				value: 'new-page'
-// 			},
-// 			{
-// 				name: 'Create React Page',
-// 				value: 'react-react-page'
-// 			},
-// 			{
-// 				name: 'Create Component',
-// 				value: 'new-component'
-// 			},
-// 			{
-// 				name: 'Upgrade',
-// 				value: 'upgrade'
-// 			}
-// 		]/*,
-// 		validate: input => {
-// 			console.log('validate recived value is ' + input);
-// 			// return true;
-// 		}*/
-// 	}
-// ];
-
 export { smartInteractive }
-

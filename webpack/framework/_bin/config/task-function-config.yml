@@ -45,6 +45,19 @@ lint:
 project:
   name:  Create Porject
   task: new-project
+  child-interactive:
+    type: list
+    name: project
+    message: 'Select Porject Mode:'
+    choices:
+      - name: Normal
+        value: normal
+      - name: React
+        value: react
+      - name: React-Redux
+        value: react-redux
+      - name: React-Native
+        value: react-native
   command-config:
     command: project [mode]
     description:
@@ -65,7 +78,7 @@ page:
   child-interactive:
     type: list
     name: page
-    message: Select Page Mode
+    message: 'Select Page Mode:'
     choices:
       - name: Normal
         value: normal
@@ -79,13 +92,13 @@ page:
       - -re, --react <string>
       - create page with react
 
-componentt:
-  name: Create Componen
+component:
+  name: Create Component
   task: new-component
   command-config:
-    command: componentt
+    command: component
     description:
-      - create react componentt.
+      - create react component.
 
 publish: 
   name: Publish Git
