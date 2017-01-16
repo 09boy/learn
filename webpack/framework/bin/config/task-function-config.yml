@@ -1,0 +1,104 @@
+start:
+  name: Development
+  task: task development...
+  command-config:
+    command: start [port]
+    description:
+      - start running server for developing
+    option:
+      - -P, --port <n>
+      - server port, default port 3000; 
+
+compress:
+  name: Compress
+  task: task compress
+  command-config:
+    command: Compress [env]
+    description:
+      - your des pack code
+    option:
+      - -nk, --nknow <string>
+      - server port, default port 3000
+
+test:
+  name: Mocha Test
+  task: task code-test
+  command-config:
+    command: test
+    description:
+      - your des
+    option:
+      - -nk, --nknow <string>
+      - server port, default port 3000
+
+lint:
+  name: Lint
+  task: code-clints
+  command-config:
+    command: lint
+    description:
+      - your des
+    option:
+      - -nk, --nknow <string>
+      - server port, default port 3000
+
+project:
+  name:  Create Porject
+  task: new-project
+  command-config:
+    command: project [mode]
+    description:
+      - create project.<argument:mode -> normal | react | react & redux | react-native>; default normal project [moode]
+    option:
+      - -re, --react <string>
+      - create project with react
+    option-2:
+      - -rd, --react-redux
+      - create project with react and redux
+    option-3:
+      - -ren, --react-native
+      - create project with react-native and redux
+
+page: 
+  name: Create Page
+  task: new-page
+  child-interactive:
+    type: list
+    name: page
+    message: Select Page Mode
+    choices:
+      - name: Normal
+        value: normal
+      - name: React
+        value: react
+  command-config:
+    command: page [mode]
+    description:
+      - create page. default normal page [mode]
+    option:
+      - -re, --react <string>
+      - create page with react
+
+componentt:
+  name: Create Componen
+  task: new-component
+  command-config:
+    command: componentt
+    description:
+      - create react componentt.
+
+publish: 
+  name: Publish Git
+  task: publish branch to origin responstory
+  command-config:
+    command: publish [env-git]
+    description:
+      - push code to origin responstory
+
+upgrade:
+  name: Upgrade
+  task: upgrade
+  command-config:
+    command: upgrade
+    description:
+      - upgrade smart version
