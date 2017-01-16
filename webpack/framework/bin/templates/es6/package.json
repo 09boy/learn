@@ -1,0 +1,29 @@
+{
+  "name": "With-ES6-Project",
+  "version": "0.0.1",
+  "description": "boy-smart Framework to use",
+  "scripts": {
+    "smart": "smart"
+  },
+  "keywords": [
+    "boy-smart Framework",
+    "Webpack 2",
+    "es6",
+    "Front Framework"
+  ],
+  "author": "09boy",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "express": "^4.14.0",
+    "node-sass": "^4.2.0",
+    "sass-loader": "^4.1.1"
+  }
+}

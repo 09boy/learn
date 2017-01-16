@@ -4,12 +4,13 @@ PORT: 3000
 
 HOST: 0.0.0.0
 
-ESLINT: true
-
-BASE64_LIMIT_SIZE:  8000
+# ESLINT: true
 
 PROJECT_CONSTRURE:
 
   BUILD: static
   
   SOURCES: client
+
+# WORK_DIRECTORY:
+# Derectory where you work.

@@ -21,10 +21,15 @@ var _actions = require('./functions/actions.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+console.log('###########');
+
+// let b = fs.readFileSync( __dirname + '/.boy-smart', 'utf8')
+// console.log('bbbb', b);
+
 var checkDevEnv = function checkDevEnv() {
-	if (__dirname.split('/').pop() === '_bin') {
-		cp('-R', (0, _path.resolve)(__dirname, '..', 'bin/config'), './_bin');
-	}
+	if (__dirname.split('/').pop() === '_bin' /* && fs.existsSync(resolve(__dirname, '.boy-smart'))*/) {
+			cp('-R', (0, _path.resolve)(__dirname, '..', 'bin/config'), './_bin');
+		}
 };
 
 var executeInteractiveAction = function executeInteractiveAction(config) {
