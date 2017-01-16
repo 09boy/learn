@@ -1,0 +1,19 @@
+{
+  "name": "Normal-Project",
+  "version": "0.0.1",
+  "description": "boy-smart Framework to use",
+  "scripts": {
+    "smart": "smart"
+  },
+  "keywords": [
+    "Front Framework",
+    "boy-smart",
+    "webpack 2"
+  ],
+  "author": "09boy",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "express": "^4.14.0"
+  }
+}
