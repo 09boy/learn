@@ -14,3 +14,5 @@ PROJECT_CONSTRURE:
 
 # WORK_DIRECTORY:
 # Derectory where you work.
+
+PROJECT_MODE: normal
