@@ -5,13 +5,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.server = undefined;
 
+var _path = require('path');
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _path = require('path');
+var _webpack = require('webpack');
 
-var _path2 = _interopRequireDefault(_path);
+var _webpack2 = _interopRequireDefault(_webpack);
+
+var _webpackDevMiddleware = require('webpack-dev-middleware');
+
+var _webpackDevMiddleware2 = _interopRequireDefault(_webpackDevMiddleware);
+
+var _webpackHotMiddleware = require('webpack-hot-middleware');
+
+var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
+
+var _config = require('../webpack/config.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19,14 +35,14 @@ var app = (0, _express2.default)();
 
 app.get('*', function (req, rep) {
 	rep.set('Content-Type', 'text/html');
-	rep.sendFile(_path2.default.resolve(__dirname, '..', '..', 'bin/template.html'));
+	rep.sendFile((0, _path.resolve)(__dirname, '..', '..', 'bin/template.html'));
 });
 
 var server = {
 	start: function start() {
-		app.listen('3000', function () {
-			console.log('start server...');
-		});
+		// app.listen('3000', () => {
+		// 	console.log('start server...');
+		// });
 	}
 };
 
