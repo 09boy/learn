@@ -21,48 +21,29 @@ var _actions = require('./functions/actions.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log('###########');
-
-// let b = fs.readFileSync( __dirname + '/.boy-smart', 'utf8')
-// console.log('bbbb', b);
-
-var checkDevEnv = function checkDevEnv() {
-	if (__dirname.split('/').pop() === '_bin' /* && fs.existsSync(resolve(__dirname, '.boy-smart'))*/) {
-			cp('-R', (0, _path.resolve)(__dirname, '..', 'bin/config'), './_bin');
-		}
-};
-
 var executeInteractiveAction = function executeInteractiveAction(config) {
 	_interactive.smartInteractive.help(config).then(function (answers) {
-		console.log(answers, '//////// ');
+		//console.log(answers, '//////// ');
 		_actions.smartTask.execute(config[answers.action], answers);
-	}).catch(function (e) {
-		console.log('error from executeInteractiveAction function: ', e);
 	});
+	// .catch(e => { console.log('error from executeInteractiveAction function: ', e);});
 };
 
 var executeCommander = function executeCommander(config) {
-	_commander.smartCommander.start(config).then(function (commandInfo) {
+	_commander.smartCommander.exec(config).then(function (commandInfo) {
 		commandInfo.isUnknowCommand ? executeInteractiveAction(config) : _actions.smartTask.execute(config[commandInfo.action], commandInfo);
-	}).catch(function (e) {
-		console.log('smartCommander promise error: ', e);
 	});
+	// .catch(e => { console.log('smartCommander promise error: ', e);});
 };
 
 var getTaskFunctionConfig = function getTaskFunctionConfig() {
 	var taskFunctionConfig = void 0;
 	try {
-		taskFunctionConfig = _jsYaml2.default.safeLoad(_fs2.default.readFileSync(__dirname + '/config/task-function-config.yml', 'utf8'));
+		taskFunctionConfig = _jsYaml2.default.safeLoad(_fs2.default.readFileSync((0, _path.resolve)(__dirname, '..', 'bin/config/task-function-config.yml'), 'utf8'));
 	} catch (e) {
 		console.log('Read task-function-config.yml file error: ', e);
 	}
 	return taskFunctionConfig;
 };
 
-var run = function run() {
-	checkDevEnv();
-	executeCommander(getTaskFunctionConfig());
-};
-
-run();
-console.log('boy-smart', __dirname.split('/').pop());
+executeCommander(getTaskFunctionConfig());

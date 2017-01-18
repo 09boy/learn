@@ -13,7 +13,7 @@ const setUnknowCommand = () => {
 	program
 		.command('*')
 		.action(env => {
-			console.log('sb... unknow command');
+			// console.log('sb... unknow command');
 			resolveObj.isUnknowCommand = true;
 		});
 };
@@ -36,7 +36,7 @@ const setCommand = (obj, key) => {
 		}
 	}
 	p.action((arg, options) => {
-		console.log('action callback....', arg, options.exec_mode, key);
+		// console.log('action callback....', arg, options.exec_mode, key);
 		Object.assign(resolveObj, {
 			isUnknowCommand: false,
 			action: key,
@@ -61,7 +61,7 @@ const initial = config => {
 
 
 const smartCommander = {
-	start: config => {
+	exec: config => {
 		initial(config);
 		let p = new Promise((resolve, reject) => {
 			resolve(resolveObj)
