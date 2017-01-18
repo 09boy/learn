@@ -1,21 +1,20 @@
-VERSION:  0.0.1
+port: 3030
+# <Number> for debug
 
-PORT: 3000
+host: 0.0.0.0
+# <String> for debug
 
-HOST: 0.0.0.0
+clientDir: src
+# working directory
 
-# ESLINT: true
+staticDir: dist
+# compiled files to disk where you want it to be emitted to
 
-# BASE64_LIMIT_SIZE:  8000
+vendors: null
+# <Array>
 
-PROJECT_CONSTRURE:
-
-  BUILD: static
+pages: pages
+# <String | Object> entry point for App
+# String for a Single Page Application
+# Object for multi Page Application
   
-  SOURCES: client
-
-# WORK_DIRECTORY:
-# Derectory where you work.
-  
-
-

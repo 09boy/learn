@@ -17,11 +17,15 @@ var _fs2 = _interopRequireDefault(_fs);
 
 require('shelljs/global');
 
-var _smartPath = require('./smart-path.js');
-
 var _index = require('../server/index.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CWD = process.cwd();
+var SmartRootPath = (0, _path.resolve)(__dirname, '..', '..');
+var TemplatePath = (0, _path.resolve)(__dirname, '..', '..', 'bin/templates');
+
+var smartConfig = _jsYaml2.default.safeLoad(_fs2.default.readFileSync((0, _path.resolve)(__dirname, '..', '..', 'bin/config/smart-config.yml')), 'utf8');
 
 var getTaskFunctionConfig = function getTaskFunctionConfig() {
 	var applicationConfig = void 0;
@@ -37,10 +41,22 @@ var getTaskFunctionConfig = function getTaskFunctionConfig() {
 
 // getTaskFunctionConfig()
 
+// in directory of framework and project child
+var notExcuteAction = function notExcuteAction() {};
 
+console.log(__filename);
 var checkWorkDirectory = function checkWorkDirectory() {
-	if (!_fs2.default.existsSync(_smartPath.ROOT_PATH + '/package.json')) {
+
+	if (CWD.includes('/framework') || CWD.includes('/' + smartConfig.clientDir) /* || !(fs.existsSync(CWD + '/package.json') && fs.existsSync(CWD + `/${smartConfig.clientDir}/`))*/) {
+			console.log('not excute commander lines, because you not at root project directory.');
+			return;
+		}
+
+	if (!_fs2.default.existsSync(CWD + '/package.json')) {
 		console.log('First, you should create project which you do.');
+		cp('-f', TemplatePath + '/normal/package.json', './');
+		cp('-f', TemplatePath + '/normal/smart-config.yml', './');
+		cp('-R', TemplatePath + '/normal/src', './');
 		return;
 	}
 
@@ -56,7 +72,7 @@ var initialization = function initialization() {};
 var smartTask = {
 	execute: function execute(config, info) {
 		//console.log('execute task', info)
-		// server.start();
+		_index.server.start();
 		checkWorkDirectory();
 	}
 };
