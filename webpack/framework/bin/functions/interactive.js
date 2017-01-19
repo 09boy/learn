@@ -30,12 +30,12 @@ const getChildQuestions = config => {
 	return setQuerstions(questions);
 };
 
-const answerCallback = answers => {
+const answerCallback = answers => {	
 	let isAnswerFromRootLevel = answers['Select Action:'] ? true : false;
 	if (isAnswerFromRootLevel) {
 		let rootConfig = answers['Select Action:'];
 		let childConfig = rootConfig['child-interactive'];
-		
+			
 		result = {
 			action: matchRootKey[rootConfig.name],
 			argument: childConfig ? childConfig.name : null

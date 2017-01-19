@@ -21,7 +21,7 @@ var setVersion = function setVersion() {
 
 var setUnknowCommand = function setUnknowCommand() {
 	_commander2.default.command('*').action(function (env) {
-		console.log('sb... unknow command');
+		// console.log('sb... unknow command');
 		resolveObj.isUnknowCommand = true;
 	});
 };
@@ -44,7 +44,7 @@ var setCommand = function setCommand(obj, key) {
 		}
 	}
 	p.action(function (arg, options) {
-		console.log('action callback....', arg, options.exec_mode, key);
+		// console.log('action callback....', arg, options.exec_mode, key);
 		Object.assign(resolveObj, {
 			isUnknowCommand: false,
 			action: key,
@@ -68,7 +68,7 @@ var initial = function initial(config) {
 };
 
 var smartCommander = {
-	start: function start(config) {
+	exec: function exec(config) {
 		initial(config);
 		var p = new Promise(function (resolve, reject) {
 			resolve(resolveObj);

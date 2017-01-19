@@ -9,9 +9,22 @@ start:
       - -P, --port <n>
       - server port, default port 3000; 
 
-compress:
-  name: Compress
+pack:
+  name: Packing
   task: task compress
+  child-interactive:
+    type: list
+    name: pack
+    message: 'Select Packing Env:'
+    choices:
+      - name: Develop
+        value: develop
+      - name: Test
+        value: test
+      - name: Pre
+        value: pre
+      - name: Release
+        value: release
   command-config:
     command: Compress [env]
     description:
@@ -21,7 +34,7 @@ compress:
       - server port, default port 3000
 
 test:
-  name: Mocha Test
+  name: Testing Code
   task: task code-test
   command-config:
     command: test
@@ -43,7 +56,7 @@ lint:
       - server port, default port 3000
 
 project:
-  name:  Create Porject
+  name:  Creating Porject
   task: new-project
   child-interactive:
     type: list
@@ -73,7 +86,7 @@ project:
       - create project with react-native and redux
 
 page: 
-  name: Create Page
+  name: Creating Page
   task: new-page
   child-interactive:
     type: list
@@ -93,7 +106,7 @@ page:
       - create page with react
 
 component:
-  name: Create Component
+  name: Creating Component
   task: new-component
   command-config:
     command: component
