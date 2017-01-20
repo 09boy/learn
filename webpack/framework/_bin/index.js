@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var executeInteractiveAction = function executeInteractiveAction(config) {
 	_interactive.smartInteractive.help(config).then(function (answers) {
-		//console.log(answers, '//////// ');
+		// console.log(answers, '//////// ');
 		_actions.smartTask.execute(config[answers.action], answers);
 	});
 	// .catch(e => { console.log('error from executeInteractiveAction function: ', e);});

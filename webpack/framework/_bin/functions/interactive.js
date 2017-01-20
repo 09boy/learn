@@ -13,13 +13,18 @@ var _inquirer2 = _interopRequireDefault(_inquirer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var result = { action: null, argument: null };
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var RootQuestionName = 'Select Action:';
+var ChildQuestionIdentifier = 'child-question';
+
+var result = { action: null, argument: {} };
 var matchRootKey = {};
 
 var getRootQuestions = function getRootQuestions(config) {
 	var questions = {
 		type: 'list',
-		name: 'Select Action:',
+		name: RootQuestionName,
 		message: 'What do you want to do?',
 		choices: []
 	};
@@ -43,25 +48,37 @@ var getChildQuestions = function getChildQuestions(config) {
 	return setQuerstions(questions);
 };
 
-var answerCallback = function answerCallback(answers) {
-	var isAnswerFromRootLevel = answers['Select Action:'] ? true : false;
-	if (isAnswerFromRootLevel) {
-		var rootConfig = answers['Select Action:'];
-		var childConfig = rootConfig['child-interactive'];
+var hasChildInteractive = function hasChildInteractive(parentConfig) {
+	return _typeof(parentConfig[ChildQuestionIdentifier]) === 'object';
+};
 
-		result = {
-			action: matchRootKey[rootConfig.name],
-			argument: childConfig ? childConfig.name : null
-		};
-
-		if ((typeof childConfig === 'undefined' ? 'undefined' : _typeof(childConfig)) === 'object') {
-			return getChildQuestions(childConfig);
-		}
-	} else {
-		console.log('answers from children level', answers[result.argument]);
-		result.argument = answers[result.argument];
+var execChildInteractive = function execChildInteractive(parentConfig) {
+	var childConfig = parentConfig[ChildQuestionIdentifier];
+	if (matchRootKey[parentConfig.name]) {
+		Object.assign(result, { action: matchRootKey[parentConfig.name] });
 	}
+	return getChildQuestions(childConfig);
+};
 
+var answerCallback = function answerCallback(answers) {
+	var rootAnswer = answers[RootQuestionName];
+	if (rootAnswer && !hasChildInteractive(rootAnswer)) {
+		Object.assign(result, { action: matchRootKey[rootAnswer.name] });
+		// console.log('exet root...');
+	} else {
+		var parentConfig = void 0;
+		for (var key in answers) {
+			parentConfig = answers[key];
+		}
+		if (hasChildInteractive(parentConfig)) {
+			// console.log('exec child...');
+			return execChildInteractive(parentConfig);
+		} else {
+			Object.assign(result, { argument: _defineProperty({}, result.action, parentConfig.split(' ')) });
+			// console.log('child exec end...');
+		}
+	}
+	// console.log('ok......', result);
 	return new Promise(function (resolve, reject) {
 		resolve(result);
 	});
