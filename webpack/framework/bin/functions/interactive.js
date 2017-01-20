@@ -1,12 +1,15 @@
 import inquirer from 'inquirer';
 
-let result = {action: null, argument: null};
+const RootQuestionName = 'Select Action:';
+const ChildQuestionIdentifier = 'child-question';
+
+let result = {action: null, argument: {}};
 let matchRootKey = {};
 
 const getRootQuestions = config => {
 	const questions = {
 		type: 'list',
-		name: 'Select Action:',
+		name: RootQuestionName,
 		message: 'What do you want to do?',
 		choices: []
 	};
@@ -30,25 +33,35 @@ const getChildQuestions = config => {
 	return setQuerstions(questions);
 };
 
-const answerCallback = answers => {	
-	let isAnswerFromRootLevel = answers['Select Action:'] ? true : false;
-	if (isAnswerFromRootLevel) {
-		let rootConfig = answers['Select Action:'];
-		let childConfig = rootConfig['child-interactive'];
-			
-		result = {
-			action: matchRootKey[rootConfig.name],
-			argument: childConfig ? childConfig.name : null
-		}
+const hasChildInteractive = parentConfig => {
+	return typeof parentConfig[ChildQuestionIdentifier] === 'object';
+};
 
-		if (typeof childConfig === 'object') {
-			return getChildQuestions(childConfig);
-		}
-	} else {
-		console.log('answers from children level', answers[result.argument]);
-		result.argument = answers[result.argument];
+const execChildInteractive = parentConfig => {
+	let childConfig = parentConfig[ChildQuestionIdentifier]
+	if (matchRootKey[parentConfig.name]) {
+		Object.assign(result, {action: matchRootKey[parentConfig.name]});
 	}
-	
+	return getChildQuestions(childConfig);
+};
+
+const answerCallback = answers => {
+	let rootAnswer = answers[RootQuestionName];
+	if (rootAnswer && !hasChildInteractive(rootAnswer)) {
+			Object.assign(result, {action: matchRootKey[rootAnswer.name]});
+			// console.log('exet root...');
+	} else {
+		let parentConfig;
+		for (let key in answers) { parentConfig = answers[key]; }
+		if (hasChildInteractive(parentConfig)) {
+			// console.log('exec child...');
+			return execChildInteractive(parentConfig);
+		} else {
+			Object.assign(result, {argument: {[result.action]: parentConfig.split(' ')}});
+			// console.log('child exec end...');
+		}
+	}
+	// console.log('ok......', result);
 	return new Promise((resolve, reject) => {
 		resolve(result)
 	});
