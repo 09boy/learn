@@ -13,7 +13,7 @@ const executeInteractiveAction = config => {
 	smartInteractive
 		.help(config)
 		.then(answers => {
-			//console.log(answers, '//////// ');
+			// console.log(answers, '//////// ');
 			smartTask.execute(config[answers.action], answers);
 		})
 		// .catch(e => { console.log('error from executeInteractiveAction function: ', e);});

@@ -4,15 +4,15 @@ start:
   command-config:
     command: start [port]
     description:
-      - start running server for developing
-    option:
-      - -P, --port <n>
-      - server port, default port 3000; 
+      - Start running server
+    # option:
+    #   - -P, --port <n>
+    #   - server port, default port 3000; 
 
 pack:
   name: Packing
   task: task compress
-  child-interactive:
+  child-question:
     type: list
     name: pack
     message: 'Select Packing Env:'
@@ -26,12 +26,21 @@ pack:
       - name: Release
         value: release
   command-config:
-    command: Compress [env]
+    command: pack <env>
     description:
       - your des pack code
     option:
-      - -nk, --nknow <string>
-      - server port, default port 3000
+      - -d, --dev <string>
+      - pack develop env
+    option-2:
+      - -t, --test <string>
+      - pack test env
+    option-3:
+      - -p, --pre <string>
+      - pack pre env
+    option-4:
+      - -r, --release <string>
+      - pack release env
 
 test:
   name: Testing Code
@@ -40,9 +49,9 @@ test:
     command: test
     description:
       - your des
-    option:
-      - -nk, --nknow <string>
-      - server port, default port 3000
+    # option:
+    #   - -nk, --nknow <string>
+    #   - server port, default port 3000
 
 lint:
   name: Lint
@@ -51,14 +60,14 @@ lint:
     command: lint
     description:
       - your des
-    option:
-      - -nk, --nknow <string>
-      - server port, default port 3000
+    # option:
+    #   - -nk, --nknow <string>
+    #   - server port, default port 3000
 
 project:
   name:  Creating Porject
   task: new-project
-  child-interactive:
+  child-question:
     type: list
     name: project
     message: 'Select Porject Mode:'
@@ -72,44 +81,60 @@ project:
       - name: React-Native
         value: react-native
   command-config:
-    command: project [mode]
+    command: project <name>
     description:
-      - create project.<argument:mode -> normal | react | react & redux | react-native>; default normal project [moode]
+      - create project.[mode] { arguments -> normal | react | react-redux | react-native> }; Nothing or error argument will create Normal Project.
     option:
-      - -re, --react <string>
+      - -r, --react [string]
       - create project with react
     option-2:
-      - -rd, --react-redux
+      - -d, --react-redux
       - create project with react and redux
     option-3:
-      - -ren, --react-native
+      - -n, --react-native
       - create project with react-native and redux
 
 page: 
   name: Creating Page
   task: new-page
-  child-interactive:
+  child-question:
     type: list
     name: page
     message: 'Select Page Mode:'
+    configChild: &configChild
+      name: Input Page Name
+      type: input
+      message: 'Input Name <Multi-name use empty key-press>:'
     choices:
       - name: Normal
-        value: normal
+        value: 
+          child-question:
+            <<: *configChild
       - name: React
-        value: react
+        value: 
+          child-question:
+            <<: *configChild
+
   command-config:
-    command: page [mode]
+    command: page <name> [otherPageNames...]
     description:
-      - create page. default normal page [mode]
+      - create page. default normal page [mode] {arguments -> normal | react}; Nothing or error argument will crate Normal Page.
     option:
-      - -re, --react <string>
+      - -r, --react <mode>
       - create page with react
+    # option-2:
+    #   - -n, --normal <mode>
+    #   - create normal page
 
 component:
   name: Creating Component
   task: new-component
+  child-question:
+    name: 'Input Component Name'
+    type: input
+    message: 'Input Name <Multi-name use empty key-press>:'
   command-config:
-    command: component
+    command: component <name> [otherComponentNames...]
     description:
       - create react component.
 
