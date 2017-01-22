@@ -55,15 +55,29 @@ const setCommands = config => {
 	}
 };
 
+const parseOptions = () => {
+	let _argv = process.argv;
+	let commandOptions;
+	if (_argv.toString().includes(',-')) {
+		// arguments '-short name'
+
+		let copyArgv = [..._argv];
+		// check out last value
+		if (copyArgv.pop().includes('-')) { commandOptions = 'normal' } else {
+			let index = -1;
+			for (let str of _argv) {
+				index++;
+				if (str.includes('-')) { break;}
+			}
+			commandOptions = _argv[index + 1];
+		}
+	}
+	return commandOptions;
+};
+
 const parseAnswers = (action, arg, args) => {
-		let _argv = process.argv;
-		// _argv.shift();
-		// _argv.shift();
-		// console.log(_argv);
 		// console.log('action: arguments...',arg, ' .... ',);
-
 		// console.log(process.argv.toString().includes(',-'));
-
 		let otherArgs = args instanceof Array ?  args : [];
 		// console.log(otherArgs);
 		Object.assign(resolveObj, {
@@ -73,6 +87,7 @@ const parseAnswers = (action, arg, args) => {
 				port: program.port,
 				host: program.host,
 				[action]: [arg, ...otherArgs],
+				option: parseOptions()
 			}
 		});
 };
@@ -85,14 +100,12 @@ const initial = config => {
 	program.parse(process.argv);
 };
 
-
 const smartCommander = {
 	exec: config => {
 		initial(config);
-		let p = new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			resolve(resolveObj)
 		});
-		return p;
 	}
 };
 
