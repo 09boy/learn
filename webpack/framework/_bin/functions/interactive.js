@@ -56,6 +56,8 @@ var execChildInteractive = function execChildInteractive(parentConfig) {
 	var childConfig = parentConfig[ChildQuestionIdentifier];
 	if (matchRootKey[parentConfig.name]) {
 		Object.assign(result, { action: matchRootKey[parentConfig.name] });
+	} else {
+		Object.assign(result, { option: childConfig.val });
 	}
 	return getChildQuestions(childConfig);
 };
@@ -72,11 +74,11 @@ var answerCallback = function answerCallback(answers) {
 			parentConfig = answers[key];
 		}
 		if (hasChildInteractive(parentConfig)) {
-			console.log('exec child...');
+			//console.log('exec child...', parentConfig);
 			return execChildInteractive(parentConfig);
 		} else {
 			Object.assign(result, { argument: _defineProperty({}, result.action, parentConfig.split(' ')) });
-			console.log('child exec end...');
+			// console.log('child exec end...');
 		}
 	}
 	// console.log('ok......', result);

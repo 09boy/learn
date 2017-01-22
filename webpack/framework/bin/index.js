@@ -13,10 +13,8 @@ const executeInteractiveAction = config => {
 	smartInteractive
 		.help(config)
 		.then(answers => {
-			// console.log(answers, '//////// ');
 			smartTask.execute(config[answers.action], answers);
-		})
-		// .catch(e => { console.log('error from executeInteractiveAction function: ', e);});
+		});
 };
 
 const executeCommander = config => {
@@ -24,8 +22,7 @@ const executeCommander = config => {
 		.exec(config)
 		.then(commandInfo => {
 			commandInfo.isUnknowCommand ? executeInteractiveAction(config) : smartTask.execute(config[commandInfo.action], commandInfo);
-	  })
-		// .catch(e => { console.log('smartCommander promise error: ', e);});
+	  });
 };
 
 const getTaskFunctionConfig = () => {

@@ -59,21 +59,15 @@ const isRejectExecAction = () => {
 	return condition
 };
 
-// const isProjectInitialization= () => {
-// 	let conditaion = fs.existsSync(CWD + '/package.json');
-// 	if (!conditaion) Log.tips('Initialize the project...');
-// 	return conditaion
-// };
-
 const initializeProject = () => {
 	let baseDir = process.cwd() + '/';
 	Log.tips(`Create new Project at ${baseDir}`);
 
-	/*if (!fs.existsSync('./.body-smart')) { touch(`${baseDir}.boy-smart`); }
+	if (!fs.existsSync('./.body-smart')) { touch(`${baseDir}.boy-smart`); }
 	// override
 	fs.writeFile('./.boy-smart', `{"installed": false, "baseDir": ${baseDir}}`, err => {
 		if (err) throw err;
-		console.log('It is saved')
+		// console.log('It is saved')
 	});
 
 	cp('-f',`${TemplatePath}/normal/package.json`,baseDir);
@@ -82,7 +76,8 @@ const initializeProject = () => {
 	if (smartConfig.clientDir !== 'src') { mv(`${baseDir}src`, '${baseDir}${smartConfig.clientDir}')}
 
 	// installing package
-	exec('npm install');*/
+	// exec('npm install');
+	Log.tips('Start installing packages.');
 };
 
 const toUpFindFile = (condition, level = 10) => {
@@ -119,23 +114,12 @@ const toUpFindFile = (condition, level = 10) => {
 };
 
 const checkWorkDirectory = () => {
-
 	return new Promise((resolve, reject) => {
 		if (!isFrameworkDirectory()) {
 			isInProjectRootDir().then(resolve).catch(() => toUpFindFile(isExistInstallFiles)).catch(msg => { resolve(msg); })
 		}
 	})
 	
-	// return Promise.all([isFrameworkDirectory(), isInProjectRootDir().catch(checkOutInstallFiles)]).then(values => {
-	// 	Promise.resolve('check success')
-	// 	console.log('all::', values);
-	// })
-
-	// if (fs.existsSync(ROOT_PATH + '/smart-config.js')) {
-	// 	console.log('initializated work derectory');
-	// } else {
-	// 	console.log('not initial work derectory');
-	// }
 };
 
 const initialization = () => {
@@ -144,18 +128,19 @@ const initialization = () => {
 
 const smartTask = {
 	execute: (config, info) => {
-		// console.log(info);
-		// checkWorkDirectory().then(msg => {
-		// 	console.log('exec task....', msg);
-		// 	if (msg) {
-		// 		initializeProject();
-		// 	}
+		checkWorkDirectory().then(msg => {
+			if (msg) {
+				initializeProject();
+			} else if (info.action === 'project') {
+				Log.error('Do not create new Project at the place where has had "smart" project.');
+				return;
+			}
 
-		// 	info.argument.host = info.argument.host || smartConfig.host
-		// 	info.argument.port = info.argument.port || smartConfig.port
-		// 	// console.log('execute task', info)
-		// 	// server.start();
-		// })
+			info.argument.host = info.argument.host || smartConfig.host
+			info.argument.port = info.argument.port || smartConfig.port
+			console.log('exec task....', msg, info);
+			server.start(info.argument.port, info.argument.host);
+		})
 	}
 };
 

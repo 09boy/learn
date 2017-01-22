@@ -78,28 +78,29 @@ var isRejectExecAction = function isRejectExecAction() {
 	return condition;
 };
 
-// const isProjectInitialization= () => {
-// 	let conditaion = fs.existsSync(CWD + '/package.json');
-// 	if (!conditaion) Log.tips('Initialize the project...');
-// 	return conditaion
-// };
-
 var initializeProject = function initializeProject() {
 	var baseDir = process.cwd() + '/';
 	_console2.default.tips('Create new Project at ' + baseDir);
 
-	/*if (!fs.existsSync('./.body-smart')) { touch(`${baseDir}.boy-smart`); }
- // override
- fs.writeFile('./.boy-smart', `{"installed": false, "baseDir": ${baseDir}}`, err => {
- 	if (err) throw err;
- 	console.log('It is saved')
- });
- 	cp('-f',`${TemplatePath}/normal/package.json`,baseDir);
- cp('-f',`${TemplatePath}/normal/smart-config.yml`, baseDir);
- cp('-R',`${TemplatePath}/normal/src`, baseDir);
- if (smartConfig.clientDir !== 'src') { mv(`${baseDir}src`, '${baseDir}${smartConfig.clientDir}')}
- 	// installing package
- exec('npm install');*/
+	if (!_fs2.default.existsSync('./.body-smart')) {
+		touch(baseDir + '.boy-smart');
+	}
+	// override
+	_fs2.default.writeFile('./.boy-smart', '{"installed": false, "baseDir": ' + baseDir + '}', function (err) {
+		if (err) throw err;
+		// console.log('It is saved')
+	});
+
+	cp('-f', TemplatePath + '/normal/package.json', baseDir);
+	cp('-f', TemplatePath + '/normal/smart-config.yml', baseDir);
+	cp('-R', TemplatePath + '/normal/src', baseDir);
+	if (smartConfig.clientDir !== 'src') {
+		mv(baseDir + 'src', '${baseDir}${smartConfig.clientDir}');
+	}
+
+	// installing package
+	// exec('npm install');
+	_console2.default.tips('Start installing packages.');
 };
 
 var toUpFindFile = function toUpFindFile(condition) {
@@ -139,7 +140,6 @@ var toUpFindFile = function toUpFindFile(condition) {
 };
 
 var checkWorkDirectory = function checkWorkDirectory() {
-
 	return new Promise(function (resolve, reject) {
 		if (!isFrameworkDirectory()) {
 			isInProjectRootDir().then(resolve).catch(function () {
@@ -149,35 +149,25 @@ var checkWorkDirectory = function checkWorkDirectory() {
 			});
 		}
 	});
-
-	// return Promise.all([isFrameworkDirectory(), isInProjectRootDir().catch(checkOutInstallFiles)]).then(values => {
-	// 	Promise.resolve('check success')
-	// 	console.log('all::', values);
-	// })
-
-	// if (fs.existsSync(ROOT_PATH + '/smart-config.js')) {
-	// 	console.log('initializated work derectory');
-	// } else {
-	// 	console.log('not initial work derectory');
-	// }
 };
 
 var initialization = function initialization() {};
 
 var smartTask = {
 	execute: function execute(config, info) {
-		// console.log(info);
-		// checkWorkDirectory().then(msg => {
-		// 	console.log('exec task....', msg);
-		// 	if (msg) {
-		// 		initializeProject();
-		// 	}
+		checkWorkDirectory().then(function (msg) {
+			if (msg) {
+				initializeProject();
+			} else if (info.action === 'project') {
+				_console2.default.error('Do not create new Project at the place where has had "smart" project.');
+				return;
+			}
 
-		// 	info.argument.host = info.argument.host || smartConfig.host
-		// 	info.argument.port = info.argument.port || smartConfig.port
-		// 	// console.log('execute task', info)
-		// 	// server.start();
-		// })
+			info.argument.host = info.argument.host || smartConfig.host;
+			info.argument.port = info.argument.port || smartConfig.port;
+			console.log('exec task....', msg, info);
+			_index.server.start(info.argument.port, info.argument.host);
+		});
 	}
 };
 

@@ -39,10 +39,11 @@ app.get('*', function (req, rep) {
 });
 
 var server = {
-	start: function start() {
+	start: function start(port, host) {
 		// app.listen('3000', () => {
 		// 	console.log('start server...');
 		// });
+		console.log('Listening server port ', port, host);
 	}
 };
 

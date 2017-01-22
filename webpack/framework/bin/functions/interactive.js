@@ -41,6 +41,8 @@ const execChildInteractive = parentConfig => {
 	let childConfig = parentConfig[ChildQuestionIdentifier]
 	if (matchRootKey[parentConfig.name]) {
 		Object.assign(result, {action: matchRootKey[parentConfig.name]});
+	} else {
+		Object.assign(result, {option: childConfig.val});
 	}
 	return getChildQuestions(childConfig);
 };
@@ -55,11 +57,11 @@ const answerCallback = answers => {
 		let parentConfig;
 		for (let key in answers) { parentConfig = answers[key]; }
 		if (hasChildInteractive(parentConfig)) {
-			console.log('exec child...');
+			//console.log('exec child...', parentConfig);
 			return execChildInteractive(parentConfig);
 		} else {
 			Object.assign(result, {argument: {[result.action]: parentConfig.split(' ')}});
-			console.log('child exec end...');
+			// console.log('child exec end...');
 		}
 	}
 	// console.log('ok......', result);
