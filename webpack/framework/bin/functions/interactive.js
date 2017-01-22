@@ -51,14 +51,15 @@ const answerCallback = answers => {
 			Object.assign(result, {action: matchRootKey[rootAnswer.name]});
 			// console.log('exet root...');
 	} else {
+
 		let parentConfig;
 		for (let key in answers) { parentConfig = answers[key]; }
 		if (hasChildInteractive(parentConfig)) {
-			// console.log('exec child...');
+			console.log('exec child...');
 			return execChildInteractive(parentConfig);
 		} else {
 			Object.assign(result, {argument: {[result.action]: parentConfig.split(' ')}});
-			// console.log('child exec end...');
+			console.log('child exec end...');
 		}
 	}
 	// console.log('ok......', result);

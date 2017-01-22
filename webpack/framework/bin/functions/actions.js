@@ -12,7 +12,13 @@ const TemplatePath = resolve(__dirname, '..', '..', 'bin/templates');
 
 let smartConfig = yaml.safeLoad(fs.readFileSync(resolve(__dirname, '..', '..', 'bin/config/smart-config.yml')), 'utf8');
 
-const installInfoJSON = {installed: false, baseDir: null};
+// const installInfoJSON = {installed: false, baseDir: null};
+
+// const getDirectories = srcpath => {
+//   return fs.readdirSync(srcpath).filter(function(file) {
+//     return fs.statSync(resolve(srcpath, file)).isDirectory();
+//   });
+// }
 
 /**
  * 执行任务前检查
@@ -29,119 +35,107 @@ const installInfoJSON = {installed: false, baseDir: null};
  */
 
 const isExistInstallFiles = path => {
-	return fs.existsSync(path + 'package.json') && fs.existsSync(dirPath + '.boy-smart');
+	return fs.existsSync(path + 'package.json') && fs.existsSync(path + '.boy-smart');
 };
 
+const isFrameworkDirectory = () => {
+	if (fs.existsSync('.framework-env')) {
+			Log.error('You can not initial project at the place where is framework directory.');
+			return true;
+	}
+	return false;
+}
+
 const isInProjectRootDir = () => {
-	let condition =  isExistInstallFiles('./');//fs.existsSync('./package.json') && fs.existsSync('./.boy-smart')
-	Log.tip('Do you in project root directory: ', condition);
+	let condition =  isExistInstallFiles(process.cwd() + '/');
 	return new Promise((resolve, reject) => {
-			condition ? resolve() : reject()
+		condition ? resolve() : reject();
 	})
 };
 
 const isRejectExecAction = () => {
-
-	// CWD.includes(`/${smartConfig.clientDir}`)
 	let condition = CWD.includes('/framework');
 	if (condition) Log.error('Reject execute command lines, because you not at root directory of project .');
 	return condition
 };
 
-const isProjectInitialization= () => {
-	let conditaion = fs.existsSync(CWD + '/package.json');
-	if (!conditaion) Log.tip('Initialize the project...');
-	return conditaion
-};
-
-const initializeProject = () => {
-	// if (!fs.existsSync('./.body-smart')) touch('./.boy-smart');
-
-	// fs.writeFile('./.boy-smart', '{install: true}', err => {
-	// 	if (err) throw err;
-
-	// 	console.log('It is saved')
-	// })
-
-	// fs.readFile('./.boy-smart', 'utf8', (err, data) => {
-	// 	if (err) throw err;
-
-	// 	console.log(JSON.parse(data));
-	// })
-	// cp('-f',`${TemplatePath}/normal/package.json`,'./');
-	// cp('-f',`${TemplatePath}/normal/smart-config.yml`,'./');
-	// cp('-R',`${TemplatePath}/normal/src`,'./');
-	// if (smartConfig.clientDir !== 'src') { mv('./src', './${smartConfig.clientDir}')}
-};
-
-// const findFile = () => {
-// 	let level = 10;
-// 	// console.log(__dirname, CWD.split('/').pop());
-// 	Log.tip('loop dirs to find intall-files that are package.json and .boy-smart');
-// 	let s_date = new Date();
-// 	s_date = s_date.getTime();
-// 	let josnFil, smartFile, result = false, dirPath = '';
-// 	while (--level) {
-// 		dirPath += '../'
-// 		josnFil = fs.existsSync(dirPath + 'package.json')
-// 		smartFile = fs.existsSync(dirPath + '.boy-smart')
-// 		console.log(level);
-// 		if (josnFil && smartFile) {
-// 			result = true
-// 			break 
-// 		}
-// 	}
-
-// 	let e_date = new Date();
-// 	console.log('use ms ::: ', (e_date.getTime() - s_date));
-// 	console.log('find file result : ', result);
+// const isProjectInitialization= () => {
+// 	let conditaion = fs.existsSync(CWD + '/package.json');
+// 	if (!conditaion) Log.tips('Initialize the project...');
+// 	return conditaion
 // };
 
+const initializeProject = () => {
+	let baseDir = process.cwd() + '/';
+	Log.tips(`Create new Project at ${baseDir}`);
 
-const findFile = (condition) => {
-	let level = 10;
-	let result = false;
-	let s_date = new Date().getTime();
+	/*if (!fs.existsSync('./.body-smart')) { touch(`${baseDir}.boy-smart`); }
+	// override
+	fs.writeFile('./.boy-smart', `{"installed": false, "baseDir": ${baseDir}}`, err => {
+		if (err) throw err;
+		console.log('It is saved')
+	});
 
-	let dirPath = ''
+	cp('-f',`${TemplatePath}/normal/package.json`,baseDir);
+	cp('-f',`${TemplatePath}/normal/smart-config.yml`, baseDir);
+	cp('-R',`${TemplatePath}/normal/src`, baseDir);
+	if (smartConfig.clientDir !== 'src') { mv(`${baseDir}src`, '${baseDir}${smartConfig.clientDir}')}
+
+	// installing package
+	exec('npm install');*/
+};
+
+const toUpFindFile = (condition, level = 10) => {
+	let	result = false,
+			s_date = new Date().getTime();
+
+	Log.tips('Checking whether project is exist.');
+	let dirPath = '';
 
 	while(--level) {
 		dirPath += '../'
 		if (condition(dirPath)) {
 			result = true;
-			console.log('find up');
 			break;
 		}
 	}
 
 	let e_date = new Date().getTime();
-	let useMs = s_date - e_date;
-
-	Log.tip('FindFile Result ::', result , ' ====  Use ms : ', useMs);
-}
-
-const toUpFindFile = path => {
-	return false
-} 
+	let tookMs = e_date - s_date;
+	Log.tips(`Took ${tookMs} seconds.`);
+	if (result) {
+		Log.warn(`You has created Project in ${resolve(dirPath)}, please back to Project Root Directory executing command line.`);
+		// cd(dirPath)
+		// console.log(process.cwd());
+	}
+	
+	return new Promise((resolve, reject) => {
+		if (result) { resolve('sucess'); }
+		else {
+			Log.warn('You can use "smart || smart project <name> [mode]" command line to create new Project.');
+			reject('new project');
+		}
+	});
+};
 
 const checkWorkDirectory = () => {
 
-	isInProjectRootDir()
-	.catch(findFile(isExistInstallFiles))
-
-
-	// findFile();
-	// if (isRejectExecAction()) { return }
-
-	// if (!isProjectInitialization()) { initializeProject(); }
+	return new Promise((resolve, reject) => {
+		if (!isFrameworkDirectory()) {
+			isInProjectRootDir().then(resolve).catch(() => toUpFindFile(isExistInstallFiles)).catch(msg => { resolve(msg); })
+		}
+	})
+	
+	// return Promise.all([isFrameworkDirectory(), isInProjectRootDir().catch(checkOutInstallFiles)]).then(values => {
+	// 	Promise.resolve('check success')
+	// 	console.log('all::', values);
+	// })
 
 	// if (fs.existsSync(ROOT_PATH + '/smart-config.js')) {
 	// 	console.log('initializated work derectory');
 	// } else {
 	// 	console.log('not initial work derectory');
 	// }
-
-	console.log('exec task...')
 };
 
 const initialization = () => {
@@ -150,11 +144,18 @@ const initialization = () => {
 
 const smartTask = {
 	execute: (config, info) => {
-		info.argument.host = info.argument.host || smartConfig.host
-		info.argument.port = info.argument.port || smartConfig.port
-		console.log('execute task', info)
-		// server.start();
-		checkWorkDirectory();
+		// console.log(info);
+		// checkWorkDirectory().then(msg => {
+		// 	console.log('exec task....', msg);
+		// 	if (msg) {
+		// 		initializeProject();
+		// 	}
+
+		// 	info.argument.host = info.argument.host || smartConfig.host
+		// 	info.argument.port = info.argument.port || smartConfig.port
+		// 	// console.log('execute task', info)
+		// 	// server.start();
+		// })
 	}
 };
 

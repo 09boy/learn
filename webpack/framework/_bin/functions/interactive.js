@@ -66,16 +66,17 @@ var answerCallback = function answerCallback(answers) {
 		Object.assign(result, { action: matchRootKey[rootAnswer.name] });
 		// console.log('exet root...');
 	} else {
+
 		var parentConfig = void 0;
 		for (var key in answers) {
 			parentConfig = answers[key];
 		}
 		if (hasChildInteractive(parentConfig)) {
-			// console.log('exec child...');
+			console.log('exec child...');
 			return execChildInteractive(parentConfig);
 		} else {
 			Object.assign(result, { argument: _defineProperty({}, result.action, parentConfig.split(' ')) });
-			// console.log('child exec end...');
+			console.log('child exec end...');
 		}
 	}
 	// console.log('ok......', result);

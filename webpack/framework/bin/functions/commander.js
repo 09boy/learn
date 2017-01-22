@@ -56,10 +56,16 @@ const setCommands = config => {
 };
 
 const parseAnswers = (action, arg, args) => {
-		// console.log('action: arguments...',arg, ' .... ', typeof args);
-		let otherArgs = args instanceof Array ?  args : [];
-		console.log(otherArgs);
+		let _argv = process.argv;
+		// _argv.shift();
+		// _argv.shift();
+		// console.log(_argv);
+		// console.log('action: arguments...',arg, ' .... ',);
 
+		// console.log(process.argv.toString().includes(',-'));
+
+		let otherArgs = args instanceof Array ?  args : [];
+		// console.log(otherArgs);
 		Object.assign(resolveObj, {
 			isUnknowCommand: false,
 			action,

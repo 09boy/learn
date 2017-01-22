@@ -4,7 +4,7 @@ start:
   command-config:
     command: start [port]
     description:
-      - start running server for developing
+      - Start running server
     # option:
     #   - -P, --port <n>
     #   - server port, default port 3000; 
@@ -29,9 +29,18 @@ pack:
     command: pack <env>
     description:
       - your des pack code
-    # option:
-    #   - -nk, --nknow <string>
-    #   - server port, default port 3000
+    option:
+      - -d, --dev <string>
+      - pack develop env
+    option-2:
+      - -t, --test <string>
+      - pack test env
+    option-3:
+      - -p, --pre <string>
+      - pack pre env
+    option-4:
+      - -r, --release <string>
+      - pack release env
 
 test:
   name: Testing Code
@@ -51,9 +60,9 @@ lint:
     command: lint
     description:
       - your des
-    option:
-      - -nk, --nknow <string>
-      - server port, default port 3000
+    # option:
+    #   - -nk, --nknow <string>
+    #   - server port, default port 3000
 
 project:
   name:  Creating Porject
@@ -72,18 +81,18 @@ project:
       - name: React-Native
         value: react-native
   command-config:
-    command: project <mode>
+    command: project <name>
     description:
-      - create project.<argument:mode -> normal | react | react-redux | react-native>; default normal project [moode]
-    # option:
-    #   - -re, --react <string>
-    #   - create project with react
-    # option-2:
-    #   - -rd, --react-redux
-    #   - create project with react and redux
-    # option-3:
-    #   - -ren, --react-native
-    #   - create project with react-native and redux
+      - create project.[mode] { arguments -> normal | react | react-redux | react-native> }; Nothing or error argument will create Normal Project.
+    option:
+      - -r, --react [string]
+      - create project with react
+    option-2:
+      - -d, --react-redux
+      - create project with react and redux
+    option-3:
+      - -n, --react-native
+      - create project with react-native and redux
 
 page: 
   name: Creating Page
@@ -109,13 +118,13 @@ page:
   command-config:
     command: page <name> [otherPageNames...]
     description:
-      - create page. default normal page [mode]
+      - create page. default normal page [mode] {arguments -> normal | react}; Nothing or error argument will crate Normal Page.
     option:
       - -r, --react <mode>
       - create page with react
-    option-2:
-      - -n, --normal <mode>
-      - create normal page
+    # option-2:
+    #   - -n, --normal <mode>
+    #   - create normal page
 
 component:
   name: Creating Component
