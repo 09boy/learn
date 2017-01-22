@@ -33,7 +33,7 @@ const commonColorsObj = {
 	warn: '\x1b[35m',
 	error: '\x1b[31m',
 	log: '\x1b[2m',
-	tip: '\x1b[36m'
+	tips: '\x1b[36m'
 };
 
 const print = (method, ...args) => {
@@ -50,9 +50,10 @@ const Log = {
 	error: (...args) => {
 		print('error', ...args);
 	},
-	tip: (...args) => {
-		print('tip', ...args);
+	tips: (...args) => {
+		print('tips', ...args);
 	},
+
 	log: console.log
 };
 

@@ -67,10 +67,16 @@ var setCommands = function setCommands(config) {
 };
 
 var parseAnswers = function parseAnswers(action, arg, args) {
-	// console.log('action: arguments...',arg, ' .... ', typeof args);
-	var otherArgs = args instanceof Array ? args : [];
-	console.log(otherArgs);
+	var _argv = process.argv;
+	// _argv.shift();
+	// _argv.shift();
+	// console.log(_argv);
+	// console.log('action: arguments...',arg, ' .... ',);
 
+	// console.log(process.argv.toString().includes(',-'));
+
+	var otherArgs = args instanceof Array ? args : [];
+	// console.log(otherArgs);
 	Object.assign(resolveObj, {
 		isUnknowCommand: false,
 		action: action,
