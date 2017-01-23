@@ -17,10 +17,9 @@ app.get('*', (req, rep) => {
 
 const server = {
 	start: (port, host) => {
-		// app.listen('3000', () => {
-		// 	console.log('start server...');
-		// });
-		console.log('Listening server port ', port, host)
+		app.listen(port, () => {
+			console.log('start server... port is ' + port);
+		});
 	}
 };
 

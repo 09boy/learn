@@ -7,13 +7,13 @@ import 'shelljs/global';
 
 import { smartInteractive } from './functions/interactive.js';
 import { smartCommander } from  './functions/commander.js';
-import { smartTask } from './functions/actions.js';
+import { smartAction } from './functions/actions.js';
 
 const executeInteractiveAction = config => {
 	smartInteractive
 		.help(config)
 		.then(answers => {
-			smartTask.execute(config[answers.action], answers);
+			smartAction.execute(config[answers.action], answers);
 		});
 };
 
@@ -21,7 +21,7 @@ const executeCommander = config => {
 	smartCommander
 		.exec(config)
 		.then(commandInfo => {
-			commandInfo.isUnknowCommand ? executeInteractiveAction(config) : smartTask.execute(config[commandInfo.action], commandInfo);
+			commandInfo.isUnknowCommand ? executeInteractiveAction(config) : smartAction.execute(config[commandInfo.action], commandInfo);
 	  });
 };
 

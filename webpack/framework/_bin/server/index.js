@@ -40,10 +40,9 @@ app.get('*', function (req, rep) {
 
 var server = {
 	start: function start(port, host) {
-		// app.listen('3000', () => {
-		// 	console.log('start server...');
-		// });
-		console.log('Listening server port ', port, host);
+		app.listen(port, function () {
+			console.log('start server... port is ' + port);
+		});
 	}
 };
 
