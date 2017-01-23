@@ -38,7 +38,8 @@ var commonColorsObj = {
 	warn: '\x1b[35m',
 	error: '\x1b[31m',
 	log: '\x1b[2m',
-	tips: '\x1b[36m'
+	tips: '\x1b[36m',
+	process: '\x1b[32m'
 };
 
 var print = function print(method) {
@@ -75,7 +76,13 @@ var Log = {
 
 		print.apply(undefined, ['tips'].concat(args));
 	},
+	process: function process() {
+		for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+			args[_key5] = arguments[_key5];
+		}
 
+		print.apply(undefined, ['process'].concat(args));
+	},
 	log: console.log
 };
 

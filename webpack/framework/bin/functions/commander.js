@@ -79,7 +79,6 @@ const parseAnswers = (action, arg, args) => {
 		// console.log('action: arguments...',arg, ' .... ',);
 		// console.log(process.argv.toString().includes(',-'));
 		let otherArgs = args instanceof Array ?  args : [];
-		// console.log(otherArgs);
 		Object.assign(resolveObj, {
 			isUnknowCommand: false,
 			action,

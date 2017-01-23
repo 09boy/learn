@@ -71,15 +71,31 @@ project:
     type: list
     name: project
     message: 'Select Porject Mode:'
+    configChild: &configChild
+      name: Input Page Name
+      type: input
+      message: 'Input Project Name <name>:'
     choices:
       - name: Normal
-        value: normal
+        value: 
+          child-question:
+            <<: *configChild
+            val: Normal
       - name: React
-        value: react
+        value: 
+          child-question:
+            <<: *configChild
+            val: React
       - name: React-Redux
-        value: react-redux
+        value: 
+          child-question:
+            <<: *configChild
+            val: React-Redux
       - name: React-Native
-        value: react-native
+        value: 
+          child-question:
+            <<: *configChild
+            val: React-Native
   command-config:
     command: project <name>
     description:
@@ -110,12 +126,12 @@ page:
         value: 
           child-question:
             <<: *configChild
-            val: normal
+            val: Normal
       - name: React
         value: 
           child-question:
             <<: *configChild
-            val: react
+            val: React
 
   command-config:
     command: page <name> [otherPageNames...]

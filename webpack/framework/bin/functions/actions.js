@@ -1,37 +1,31 @@
-import { resolve } from 'path'
+import { resolve } from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import 'shelljs/global';
 
-import { server } from '../server/index.js';
+import * as Task from './tasks.js';
 import  Log from './console.js';
 
 const CWD = process.cwd();
-const SmartRootPath = resolve(__dirname, '..', '..');
-const TemplatePath = resolve(__dirname, '..', '..', 'bin/templates');
 
 let smartConfig = yaml.safeLoad(fs.readFileSync(resolve(__dirname, '..', '..', 'bin/config/smart-config.yml')), 'utf8');
 
 // const installInfoJSON = {installed: false, baseDir: null};
 
-// const getDirectories = srcpath => {
-//   return fs.readdirSync(srcpath).filter(function(file) {
-//     return fs.statSync(resolve(srcpath, file)).isDirectory();
-//   });
-// }
-
 /**
- * 执行任务前检查
+ * Checking before executing task:
  * 
- * 1. 先读取当前目录是否有 package.json & .boy-smart
- *   1.1 存在  --> step 4
- *   1.2 不存在 --> step 2
- * 2. 未建立项目 或者 不在项目根目录
- *   2.1 最多往上查找10级目录，是否有满足条件 step 1;  note: 不会向下查找
- *   2.1.1 存在 -->  拒绝执行任务 并发出警告提示
- *   2.1.2 不存在 --> step 3
- * 3. 建立项目
- * 4. 已经初始化并且在项目根目录可执行任务
+ * Step 1.  Whether the file of package.json and .boy-smart exist in the current directory.
+ *      1.1 Existing      ->  Go Step 4
+ *      1.2 Not Existing  ->  Go Step 2
+ *
+ * Step 2.  Nothing 'smart' Project or Not at root directory of 'smart' Project.
+ *      2.1 To find files of Step 1 at the parent directory until more than 9 levels to end; get warning and stop task of executing if both files have existed in the parent directory where less than 10 levels.
+ *			2.2 Not finding up  ->  Go Step 3
+ * 
+ * Step 3.  Creating new 'smart' Project  in the current directory and installing dependency packages.
+ * 
+ * Step 4.  Executing task
  */
 
 const isExistInstallFiles = path => {
@@ -39,8 +33,8 @@ const isExistInstallFiles = path => {
 };
 
 const isFrameworkDirectory = () => {
-	if (fs.existsSync('.framework-env')) {
-			Log.error('You can not initial project at the place where is framework directory.');
+	if (fs.existsSync('.framework-env') || CWD.includes('/framework')) {
+			Log.error('In addition to upgrade you cannot do anything at the place where is framework directory.');
 			return true;
 	}
 	return false;
@@ -59,27 +53,6 @@ const isRejectExecAction = () => {
 	return condition
 };
 
-const initializeProject = () => {
-	let baseDir = process.cwd() + '/';
-	Log.tips(`Create new Project at ${baseDir}`);
-
-	if (!fs.existsSync('./.body-smart')) { touch(`${baseDir}.boy-smart`); }
-	// override
-	fs.writeFile('./.boy-smart', `{"installed": false, "baseDir": ${baseDir}}`, err => {
-		if (err) throw err;
-		// console.log('It is saved')
-	});
-
-	cp('-f',`${TemplatePath}/normal/package.json`,baseDir);
-	cp('-f',`${TemplatePath}/normal/smart-config.yml`, baseDir);
-	cp('-R',`${TemplatePath}/normal/src`, baseDir);
-	if (smartConfig.clientDir !== 'src') { mv(`${baseDir}src`, '${baseDir}${smartConfig.clientDir}')}
-
-	// installing package
-	// exec('npm install');
-	Log.tips('Start installing packages.');
-};
-
 const toUpFindFile = (condition, level = 10) => {
 	let	result = false,
 			s_date = new Date().getTime();
@@ -95,20 +68,16 @@ const toUpFindFile = (condition, level = 10) => {
 		}
 	}
 
-	let e_date = new Date().getTime();
-	let tookMs = e_date - s_date;
+	let e_date = new Date().getTime(),
+			tookMs = e_date - s_date;
 	Log.tips(`Took ${tookMs} seconds.`);
-	if (result) {
-		Log.warn(`You has created Project in ${resolve(dirPath)}, please back to Project Root Directory executing command line.`);
-		// cd(dirPath)
-		// console.log(process.cwd());
-	}
+	if (result) { Log.warn(`You has created Project in ${resolve(dirPath)}, please back to Project Root Directory executing command line.`); }
 	
 	return new Promise((resolve, reject) => {
-		if (result) { resolve('sucess'); }
+		if (result) { reject('existed'); }
 		else {
 			Log.warn('You can use "smart || smart project <name> [mode]" command line to create new Project.');
-			reject('new project');
+			resolve('new-project');
 		}
 	});
 };
@@ -116,32 +85,26 @@ const toUpFindFile = (condition, level = 10) => {
 const checkWorkDirectory = () => {
 	return new Promise((resolve, reject) => {
 		if (!isFrameworkDirectory()) {
-			isInProjectRootDir().then(resolve).catch(() => toUpFindFile(isExistInstallFiles)).catch(msg => { resolve(msg); })
+			isInProjectRootDir().then(resolve).catch(() => toUpFindFile(isExistInstallFiles)).then(msg => { resolve(msg); })
 		}
 	})
 	
 };
 
-const initialization = () => {
-
-};
-
-const smartTask = {
+const smartAction = {
 	execute: (config, info) => {
-		checkWorkDirectory().then(msg => {
-			if (msg) {
-				initializeProject();
-			} else if (info.action === 'project') {
-				Log.error('Do not create new Project at the place where has had "smart" project.');
-				return;
-			}
+		if (info.action === 'upgrade') { Task[info.action](); return; }
 
-			info.argument.host = info.argument.host || smartConfig.host
-			info.argument.port = info.argument.port || smartConfig.port
-			console.log('exec task....', msg, info);
-			server.start(info.argument.port, info.argument.host);
+		checkWorkDirectory().then(msg => {
+			if (!msg && info.action === 'project') { Log.error('Do not create new Project at the place where has had "smart" project.'); return; } 
+			else if (msg === 'new-project' && info.action !== 'project') { return; }
+
+			info.argument.host = info.argument.host || smartConfig.host;
+			info.argument.port = info.argument.port || smartConfig.port;
+			console.log('exec task....');
+			Task[info.action]({...info, smartConfig});
 		})
 	}
 };
 
-export { smartTask };
+export { smartAction };
