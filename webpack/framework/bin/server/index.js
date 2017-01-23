@@ -8,8 +8,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import { webpackConfigFun } from '../webpack/config.js';
 
 
-
-
 const app = express();
 
 app.get('*', (req, rep) => {
@@ -18,10 +16,11 @@ app.get('*', (req, rep) => {
 });
 
 const server = {
-	start: () => {
+	start: (port, host) => {
 		// app.listen('3000', () => {
 		// 	console.log('start server...');
 		// });
+		console.log('Listening server port ', port, host)
 	}
 };
 

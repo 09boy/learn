@@ -88,10 +88,10 @@ project:
       - -r, --react [string]
       - create project with react
     option-2:
-      - -d, --react-redux
+      - -d, --react-redux [string]
       - create project with react and redux
     option-3:
-      - -n, --react-native
+      - -n, --react-native [string]
       - create project with react-native and redux
 
 page: 
@@ -110,17 +110,19 @@ page:
         value: 
           child-question:
             <<: *configChild
+            val: normal
       - name: React
         value: 
           child-question:
             <<: *configChild
+            val: react
 
   command-config:
     command: page <name> [otherPageNames...]
     description:
       - create page. default normal page [mode] {arguments -> normal | react}; Nothing or error argument will crate Normal Page.
     option:
-      - -r, --react <mode>
+      - -r, --react [string]
       - create page with react
     # option-2:
     #   - -n, --normal <mode>

@@ -66,24 +66,66 @@ var setCommands = function setCommands(config) {
 	}
 };
 
-var parseAnswers = function parseAnswers(action, arg, args) {
+var parseOptions = function parseOptions() {
 	var _argv = process.argv;
-	// _argv.shift();
-	// _argv.shift();
-	// console.log(_argv);
+	var commandOptions = void 0;
+	if (_argv.toString().includes(',-')) {
+		// arguments '-short name'
+
+		var copyArgv = [].concat(_toConsumableArray(_argv));
+		// check out last value
+		if (copyArgv.pop().includes('-')) {
+			commandOptions = 'normal';
+		} else {
+			var index = -1;
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = _argv[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var str = _step.value;
+
+					index++;
+					if (str.includes('-')) {
+						break;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			commandOptions = _argv[index + 1];
+		}
+	}
+	return commandOptions;
+};
+
+var parseAnswers = function parseAnswers(action, arg, args) {
+	var _argument;
+
 	// console.log('action: arguments...',arg, ' .... ',);
-
 	// console.log(process.argv.toString().includes(',-'));
-
 	var otherArgs = args instanceof Array ? args : [];
 	// console.log(otherArgs);
 	Object.assign(resolveObj, {
 		isUnknowCommand: false,
 		action: action,
-		argument: _defineProperty({
+		argument: (_argument = {
 			port: _commander2.default.port,
 			host: _commander2.default.host
-		}, action, [arg].concat(_toConsumableArray(otherArgs)))
+		}, _defineProperty(_argument, action, [arg].concat(_toConsumableArray(otherArgs))), _defineProperty(_argument, 'option', parseOptions()), _argument)
 	});
 };
 
@@ -98,10 +140,9 @@ var initial = function initial(config) {
 var smartCommander = {
 	exec: function exec(config) {
 		initial(config);
-		var p = new Promise(function (resolve, reject) {
+		return new Promise(function (resolve, reject) {
 			resolve(resolveObj);
 		});
-		return p;
 	}
 };
 

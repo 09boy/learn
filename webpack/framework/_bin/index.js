@@ -23,17 +23,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var executeInteractiveAction = function executeInteractiveAction(config) {
 	_interactive.smartInteractive.help(config).then(function (answers) {
-		// console.log(answers, '//////// ');
 		_actions.smartTask.execute(config[answers.action], answers);
 	});
-	// .catch(e => { console.log('error from executeInteractiveAction function: ', e);});
 };
 
 var executeCommander = function executeCommander(config) {
 	_commander.smartCommander.exec(config).then(function (commandInfo) {
 		commandInfo.isUnknowCommand ? executeInteractiveAction(config) : _actions.smartTask.execute(config[commandInfo.action], commandInfo);
 	});
-	// .catch(e => { console.log('smartCommander promise error: ', e);});
 };
 
 var getTaskFunctionConfig = function getTaskFunctionConfig() {
