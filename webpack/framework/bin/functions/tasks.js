@@ -34,17 +34,23 @@ const initializeProject = (name = '', mode = 'Normal', smartConfig = {}) => {
 	mode = mode.toLowerCase();
 	cp('-f',`${TemplatePath}/${mode}/package.json`,baseDir);
 	cp('-f',`${TemplatePath}/${mode}/smart-config.yml`, baseDir);
+	cp('-f',`${TemplatePath}/${mode}/template.html`, baseDir);
 	cp('-R',`${TemplatePath}/${mode}/src`, baseDir);
 	if (smartConfig.clientDir !== 'src') { mv(`${baseDir}src`, '${baseDir}${smartConfig.clientDir}')}
 	Log.process('Downloaded installation files.');
-	
-	// // installing package
-	// Log.process('Installing packages.');
-	// exec('npm install');
-	// Log.process('Install completed.');
+	Log.tips(`You can do something to Entry ${name} derectory.`);
+};
+
+const checkDependencyPackage = () => {
+	if (!fs.existsSync('./node_modules')) {
+		Log.process('Installing dependency packages...')
+		exec('npm install');
+		Log.process('Install completed.');
+	}
 };
 
 const start = info => {
+	checkDependencyPackage();
 	server.start(info.argument.port, info.argument.host);
 };
 
