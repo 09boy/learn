@@ -58,19 +58,25 @@ var initializeProject = function initializeProject() {
 	mode = mode.toLowerCase();
 	cp('-f', TemplatePath + '/' + mode + '/package.json', baseDir);
 	cp('-f', TemplatePath + '/' + mode + '/smart-config.yml', baseDir);
+	cp('-f', TemplatePath + '/' + mode + '/template.html', baseDir);
 	cp('-R', TemplatePath + '/' + mode + '/src', baseDir);
 	if (smartConfig.clientDir !== 'src') {
 		mv(baseDir + 'src', '${baseDir}${smartConfig.clientDir}');
 	}
 	_console2.default.process('Downloaded installation files.');
+	_console2.default.tips('You can do something to Entry ' + name + ' derectory.');
+};
 
-	// // installing package
-	// Log.process('Installing packages.');
-	// exec('npm install');
-	// Log.process('Install completed.');
+var checkDependencyPackage = function checkDependencyPackage() {
+	if (!_fs2.default.existsSync('./node_modules')) {
+		_console2.default.process('Installing dependency packages...');
+		exec('npm install');
+		_console2.default.process('Install completed.');
+	}
 };
 
 var start = function start(info) {
+	checkDependencyPackage();
 	_index.server.start(info.argument.port, info.argument.host);
 };
 

@@ -7,12 +7,13 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { webpackConfigFun } from '../webpack/config.js';
 
+const CWD = process.cwd() + '/';
 
 const app = express();
 
 app.get('*', (req, rep) => {
 	rep.set('Content-Type', 'text/html');
-	rep.sendFile(resolve(__dirname, '..', '..', 'bin/template.html'));
+	rep.sendFile(`${CWD}template.html`);
 });
 
 const server = {

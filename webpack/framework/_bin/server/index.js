@@ -31,11 +31,13 @@ var _config = require('../webpack/config.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var CWD = process.cwd() + '/';
+
 var app = (0, _express2.default)();
 
 app.get('*', function (req, rep) {
 	rep.set('Content-Type', 'text/html');
-	rep.sendFile((0, _path.resolve)(__dirname, '..', '..', 'bin/template.html'));
+	rep.sendFile(CWD + 'template.html');
 });
 
 var server = {
